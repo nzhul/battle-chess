@@ -1,22 +1,21 @@
 ﻿// ROOK
 public class Grunt : Piece
 {
-
-    // TODO: Limit the movement to 1 space!!!
-    // TODO: Use variable -> Piece.Speed to determine the distance  that the unit can cover. ( by default should be 1 ).
     public override bool[,] PossibleMoves()
     {
         bool[,] r = new bool[8, 8]; // TODO: calculate this dynamicaly
         Piece piece;
         int i;
+        int maxI;
 
         // Right
         i = this.CurrentX;
+        maxI = this.CurrentX + this.Speed;
 
         while (true)
         {
             i++;
-            if (i >= 8)
+            if (i > maxI || i >= 8)
             {
                 break;
             }
@@ -28,13 +27,6 @@ public class Grunt : Piece
             }
             else
             {
-                if (piece.IsHuman != this.IsHuman) // TODO: delete this if statement and leave the break only.
-                {
-                    // in regular chess we will be allowed to go there.
-                    // but in our game we are not allowed
-                    // r[i, this.CurrentY] = true;
-                }
-
                 break;
             }
         }
@@ -42,11 +34,12 @@ public class Grunt : Piece
 
         // Left
         i = this.CurrentX;
+        maxI = this.CurrentX - this.Speed;
 
         while (true)
         {
             i--;
-            if (i < 0)
+            if (i < maxI || i < 0)
             {
                 break;
             }
@@ -58,13 +51,6 @@ public class Grunt : Piece
             }
             else
             {
-                if (piece.IsHuman != this.IsHuman) // TODO: delete this if statement and leave the break only.
-                {
-                    // in regular chess we will be allowed to go there.
-                    // but in our game we are not allowed
-                    // r[i, this.CurrentY] = true;
-                }
-
                 break;
             }
         }
@@ -72,11 +58,12 @@ public class Grunt : Piece
 
         // Up
         i = this.CurrentY;
+        maxI = this.CurrentY + this.Speed;
 
         while (true)
         {
             i++;
-            if (i >= 8)
+            if (i > maxI || i >= 8)
             {
                 break;
             }
@@ -88,13 +75,6 @@ public class Grunt : Piece
             }
             else
             {
-                if (piece.IsHuman != this.IsHuman) // TODO: delete this if statement and leave the break only.
-                {
-                    // in regular chess we will be allowed to go there.
-                    // but in our game we are not allowed
-                    // r[i, this.CurrentY] = true;
-                }
-
                 break;
             }
         }
@@ -102,11 +82,12 @@ public class Grunt : Piece
 
         // Down
         i = this.CurrentY;
+        maxI = this.CurrentY - this.Speed;
 
         while (true)
         {
             i--;
-            if (i < 0)
+            if (i < maxI || i < 0)
             {
                 break;
             }
@@ -118,13 +99,6 @@ public class Grunt : Piece
             }
             else
             {
-                if (piece.IsHuman != this.IsHuman) // TODO: delete this if statement and leave the break only.
-                {
-                    // in regular chess we will be allowed to go there.
-                    // but in our game we are not allowed
-                    // r[i, this.CurrentY] = true;
-                }
-
                 break;
             }
         }

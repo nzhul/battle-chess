@@ -1,9 +1,9 @@
 ﻿// KNIGHT
+using UnityEngine;
 
 
 public class Jumpship : Piece
 {
-
     public override bool[,] PossibleMoves()
     {
         bool[,] r = new bool[8, 8];

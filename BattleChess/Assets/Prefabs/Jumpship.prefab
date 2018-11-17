@@ -21,7 +21,6 @@ GameObject:
   - component: {fileID: 4802508136801508}
   - component: {fileID: 33604197617580760}
   - component: {fileID: 23709517503340996}
-  - component: {fileID: 65702711922207054}
   m_Layer: 0
   m_Name: Cube
   m_TagString: Untagged
@@ -55,7 +54,6 @@ GameObject:
   - component: {fileID: 4529458728521692}
   - component: {fileID: 33495615759952932}
   - component: {fileID: 23112027783479488}
-  - component: {fileID: 136674810866750894}
   m_Layer: 0
   m_Name: Cylinder
   m_TagString: Untagged
@@ -73,7 +71,6 @@ GameObject:
   - component: {fileID: 4387479513122254}
   - component: {fileID: 33603324583931302}
   - component: {fileID: 23686353925711036}
-  - component: {fileID: 136060501969603492}
   m_Layer: 0
   m_Name: Cylinder (1)
   m_TagString: Untagged
@@ -262,18 +259,6 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1111971273788460}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!65 &65702711922207054
-BoxCollider:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1111971273788460}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &114392650267407298
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -285,30 +270,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68aa17ed37aa82f439bd8966e524378c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Speed: 0
+  Hitpoints: 2
+  AttackPower: 2
   IsHuman: 1
---- !u!136 &136060501969603492
-CapsuleCollider:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1843831061361334}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  m_Radius: 0.5000001
-  m_Height: 2
-  m_Direction: 1
-  m_Center: {x: 0.000000059604645, y: 0, z: -0.00000008940697}
---- !u!136 &136674810866750894
-CapsuleCollider:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1710413059174664}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  m_Radius: 0.5000001
-  m_Height: 2
-  m_Direction: 1
-  m_Center: {x: 0.000000059604645, y: 0, z: -0.00000008940697}

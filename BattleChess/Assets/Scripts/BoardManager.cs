@@ -124,9 +124,15 @@ public class BoardManager : MonoBehaviour
         this.activePieces = new List<GameObject>();
         this.Pieces = new Piece[8, 8];
 
-        // Spawn human force
+        // 0 Grunt
+        // 1 JumpShip
+        // 2 Tank
+        // 3 Drone
+        // 4 Dreadnought
+        // 5 CommandUnit
 
-        SpawnPiece(0, 3, 4, Quaternion.identity);
+        // Spawn human force
+        SpawnPiece(2, 3, 3, Quaternion.identity);
         SpawnPiece(0, 3, 0, Quaternion.identity);
         SpawnPiece(1, 4, 0, Quaternion.identity);
         SpawnPiece(2, 5, 0, Quaternion.identity);
@@ -135,7 +141,7 @@ public class BoardManager : MonoBehaviour
         SpawnPiece(3, 2, 6, faceCameraOrientation);
         SpawnPiece(3, 5, 6, faceCameraOrientation);
         SpawnPiece(3, 3, 6, faceCameraOrientation);
-        SpawnPiece(4, 4, 6, faceCameraOrientation);
+        SpawnPiece(4, 1, 7, faceCameraOrientation);
         SpawnPiece(5, 4, 7, faceCameraOrientation);
 
     }
