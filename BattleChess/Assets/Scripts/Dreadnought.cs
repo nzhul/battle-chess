@@ -1,5 +1,50 @@
 ﻿public class Dreadnought : EnemyPiece
 {
+    protected override void ExecuteTurn()
+    {
+        this.TryMoveForward();
+        base.sensor.DetectPossibleAttackTargets();
+        this.ShootAtRandomTargetIfPossible();
+    }
+
+    private void ShootAtRandomTargetIfPossible()
+    {
+        //throw new NotImplementedException();
+    }
+
+    private void TryMoveForward()
+    {
+        Coord destination = this.TryFindDestination();
+
+        if (destination != null)
+        {
+            BoardManager.Instance.Pieces[this.CurrentX, this.CurrentY] = null;
+            base.motor.Move(BoardManager.Instance.GetTileCenter(destination.X, destination.Y));
+            this.SetPosition(destination.X, destination.Y);
+            BoardManager.Instance.Pieces[destination.X, destination.Y] = this;
+        }
+    }
+
+    private Coord TryFindDestination()
+    {
+        Coord destination = null;
+
+        bool[,] allowedMoves = this.PossibleMoves();
+
+        for (int row = 0; row < allowedMoves.GetLength(0); row++)
+        {
+            for (int col = 0; col < allowedMoves.GetLength(1); col++)
+            {
+                if (allowedMoves[row, col])
+                {
+                    destination = new Coord(row, col);
+                }
+            }
+        }
+
+        return destination;
+    }
+
     // TODO: Extract this in comman library
     public override bool[,] PossibleMoves()
     {

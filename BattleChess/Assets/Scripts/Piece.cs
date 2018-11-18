@@ -4,8 +4,10 @@ using UnityEngine;
 [RequireComponent(typeof(PieceMotor))]
 public abstract class Piece : MonoBehaviour
 {
+    [Tooltip("How many tiles a pice can walk.")]
     public int Speed = 1;
 
+    [Tooltip("If it reach 0, the piece is destroyed.")]
     public int Hitpoints = 1;
 
     public int AttackPower = 1;
@@ -20,17 +22,17 @@ public abstract class Piece : MonoBehaviour
 
     public bool ActionConsumed { get; set; }
 
-    public event Action<Piece> OnActionConsumed;
+    public bool IsTurnComplete { get; set; }
+
+    public event Action<Piece> OnTurnCompleted;
 
     public bool IsDead { get; set; }
 
     [HideInInspector]
     public PieceMotor motor;
 
-    protected bool _isTurnComplete = false;
-    public bool IsTurnComplete { get { return _isTurnComplete; } set { _isTurnComplete = value; } }
 
-    private void Awake()
+    protected virtual void Awake()
     {
         this.motor = GetComponent<PieceMotor>();
     }
@@ -48,14 +50,9 @@ public abstract class Piece : MonoBehaviour
 
     public virtual void FinishTurn()
     {
-        _isTurnComplete = true;
+        this.IsTurnComplete = true;
         this.WalkConsumed = true;
         this.ActionConsumed = true;
-
-        if (this.OnActionConsumed != null)
-        {
-            this.OnActionConsumed(this);
-        }
 
         if (GameManager.Instance != null)
         {

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class PieceManager : MonoBehaviour
@@ -25,5 +26,10 @@ public class PieceManager : MonoBehaviour
             }
         }
         return true;
+    }
+
+    public bool IsRoundComplete()
+    {
+        return !this.Pieces.Any(p => !p.ActionConsumed);
     }
 }

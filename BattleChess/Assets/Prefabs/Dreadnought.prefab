@@ -123,6 +123,7 @@ GameObject:
   - component: {fileID: 4251076027483966}
   - component: {fileID: 114205301601658586}
   - component: {fileID: 114100746096180514}
+  - component: {fileID: 114630635123603234}
   m_Layer: 0
   m_Name: Dreadnought
   m_TagString: Untagged
@@ -495,6 +496,7 @@ MonoBehaviour:
   AttackPower: 1
   IsHuman: 0
   motor: {fileID: 0}
+  Initiative: 1
 --- !u!114 &114205301601658586
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -513,3 +515,14 @@ MonoBehaviour:
   moveSpeed: 1.5
   rotateTime: 0.5
   iTweenDelay: 0
+--- !u!114 &114630635123603234
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1837963011913540}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 11e494c4c168b6a408c492cde83b2c88, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

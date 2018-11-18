@@ -55,6 +55,7 @@ GameObject:
   - component: {fileID: 4932253477025790}
   - component: {fileID: 114701435908617816}
   - component: {fileID: 114349502201771468}
+  - component: {fileID: 114745992593196064}
   m_Layer: 0
   m_Name: CommandUnit
   m_TagString: Untagged
@@ -495,6 +496,7 @@ MonoBehaviour:
   AttackPower: 1
   IsHuman: 0
   motor: {fileID: 0}
+  Initiative: 2
 --- !u!114 &114701435908617816
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -513,3 +515,14 @@ MonoBehaviour:
   moveSpeed: 1.5
   rotateTime: 0.5
   iTweenDelay: 0
+--- !u!114 &114745992593196064
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1287735972387818}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 11e494c4c168b6a408c492cde83b2c88, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

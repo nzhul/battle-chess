@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class BoardManager : MonoBehaviour
 {
@@ -51,7 +52,7 @@ public class BoardManager : MonoBehaviour
         UpdateSelection();
         DrawBoard();
 
-        if (Input.GetMouseButtonDown(0) && PlayerManager.Instance.InputEnabled)
+        if (Input.GetMouseButtonDown(0) && PlayerManager.Instance.InputEnabled && !EventSystem.current.IsPointerOverGameObject())
         {
             if (this.selectionX >= 0 && this.selectionY >= 0)
             {
@@ -104,11 +105,9 @@ public class BoardManager : MonoBehaviour
         if (this.AllowedMoves[x, y])
         {
             this.Pieces[PlayerManager.Instance.SelectedPiece.CurrentX, PlayerManager.Instance.SelectedPiece.CurrentY] = null;
-            //this.selectedPiece.transform.position = this.GetTileCenter(x, y);
             PlayerManager.Instance.SelectedPiece.motor.Move(this.GetTileCenter(x, y));
             PlayerManager.Instance.SelectedPiece.SetPosition(x, y);
             this.Pieces[x, y] = PlayerManager.Instance.SelectedPiece;
-            //this.IsHumanTurn = !this.IsHumanTurn;
         }
 
         BoardHighlights.Instance.HideHighlights();
@@ -160,9 +159,9 @@ public class BoardManager : MonoBehaviour
         // 5 CommandUnit
 
         // Spawn human force
-        PlayerManager.Instance.Pieces.Add(SpawnPiece(2, 3, 3, Quaternion.identity));
-        PlayerManager.Instance.Pieces.Add(SpawnPiece(0, 3, 0, Quaternion.identity));
-        PlayerManager.Instance.Pieces.Add(SpawnPiece(1, 4, 0, Quaternion.identity));
+        //PlayerManager.Instance.Pieces.Add(SpawnPiece(2, 3, 3, Quaternion.identity));
+        //PlayerManager.Instance.Pieces.Add(SpawnPiece(0, 3, 0, Quaternion.identity));
+        //PlayerManager.Instance.Pieces.Add(SpawnPiece(1, 4, 0, Quaternion.identity));
         PlayerManager.Instance.Pieces.Add(SpawnPiece(2, 5, 0, Quaternion.identity));
 
         // Spawn AI force
@@ -174,7 +173,7 @@ public class BoardManager : MonoBehaviour
 
     }
 
-    private Vector3 GetTileCenter(int x, int y)
+    public Vector3 GetTileCenter(int x, int y)
     {
         Vector3 origin = Vector3.zero;
         origin.x += (TILE_SIZE * x) + TILE_OFFSET;

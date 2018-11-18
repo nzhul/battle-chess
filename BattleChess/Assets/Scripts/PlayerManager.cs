@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using Assets.Scripts;
+using System.Linq;
 using UnityEngine;
 
 public class PlayerManager : PieceManager
@@ -69,12 +69,25 @@ public class PlayerManager : PieceManager
     public void StartHumanTurn()
     {
         Debug.Log("Starting Human turn!");
+
+        if (EnemyManager.Instance.IsRoundComplete())
+        {
+            if (this.AllActionsAreConsumed())
+            {
+                this.RestoreWalkAndActions();
+            }
+        }
+
         this.InputEnabled = true;
         this.IsTurnComplete = false;
 
-        if (this.AllActionsAreConsumed())
+        if (this.IsRoundComplete())
         {
-            this.RestoreWalkAndActions();
+            // Skipping human turn because he have no more actions for this round!
+            // must wait for AI to play all his pieces!
+            this.InputEnabled = false;
+            this.IsTurnComplete = true;
+            GameManager.Instance.UpdateTurn();
         }
     }
 }

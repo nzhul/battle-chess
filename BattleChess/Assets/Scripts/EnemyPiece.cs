@@ -1,8 +1,31 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using UnityEngine;
 
-public class EnemyPiece : Piece
+[RequireComponent(typeof(EnemySensor))]
+public abstract class EnemyPiece : Piece
 {
+    protected EnemySensor sensor;
+
+    [Tooltip("Determines the order of taking an action compared to other AI pieces. " +
+        "Higher is better. Ex: Piece with Initiative 2 will act before piece with initiative 1")]
+    public int Initiative = 0;
+
+    protected override void Awake()
+    {
+        base.Awake();
+
+        sensor = GetComponent<EnemySensor>();
+        this.IsTurnComplete = true;
+        this.motor.OnMovementComplete += Motor_OnMovementComplete;
+    }
+
+    private void Motor_OnMovementComplete(Piece obj)
+    {
+        // TODO: change this with throwing new Event -> OnTurnComplete.
+        obj.FinishTurn();
+    }
+
     public void PlayTurn()
     {
         if (this.IsDead)
@@ -19,25 +42,14 @@ public class EnemyPiece : Piece
     {
         if (GameManager.Instance != null && !GameManager.Instance.IsGameOver)
         {
-            Debug.Log("Enemy plays: " + gameObject.name);
-            // detect closest human piece
-            // _enemySensor.UpdateSensor();
-
-            // wait
             yield return new WaitForSeconds(0f);
-
-            if (true) // _enemySensor.HumanPieceFound
-            {
-                // move towards closest human piece.
-
-                // while wait for moving to complete
-
-                // Attack if possible
-
-                // complete the turn and set this.ActionConsumed = true;
-
-                this.FinishTurn();
-            }
+            this.ExecuteTurn();
+            //this.FinishTurn();
         }
+    }
+
+    protected virtual void ExecuteTurn()
+    {
+        this.FinishTurn();
     }
 }

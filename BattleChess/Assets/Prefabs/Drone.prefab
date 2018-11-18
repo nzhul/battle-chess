@@ -89,6 +89,7 @@ GameObject:
   - component: {fileID: 4097432653607582}
   - component: {fileID: 114947349672062048}
   - component: {fileID: 114834557167784604}
+  - component: {fileID: 114516485046000838}
   m_Layer: 0
   m_Name: Drone
   m_TagString: Untagged
@@ -406,6 +407,17 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1129663352508070}
   m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &114516485046000838
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1941612271680786}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 11e494c4c168b6a408c492cde83b2c88, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114834557167784604
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -422,6 +434,7 @@ MonoBehaviour:
   AttackPower: 1
   IsHuman: 0
   motor: {fileID: 0}
+  Initiative: 0
 --- !u!114 &114947349672062048
 MonoBehaviour:
   m_ObjectHideFlags: 1

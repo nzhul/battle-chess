@@ -183,9 +183,8 @@ public class GameManager : MonoBehaviour
 
     private void PlayEnemyTurn()
     {
-        Debug.Log("Starting AI turn!");
         _currentTurn = Turn.AI;
         PlayerManager.Instance.InputEnabled = false;
-        EnemyManager.Instance.PlayEnemyTurn();
+        EnemyManager.Instance.StartAITurn();
     }
 }

@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
 
 // Singleton that stores a collection of all active enemies on the board.
 // and manages enemy turns
@@ -61,16 +63,40 @@ public class EnemyManager : PieceManager
         return true;
     }
 
-    public void PlayEnemyTurn()
+    public void StartAITurn()
     {
-        foreach (EnemyPiece enemy in this.Pieces)
+        if (!this.IsEnemyTurnComplete())
         {
-            if (enemy != null && !enemy.IsDead)
-            {
-                enemy.IsTurnComplete = false;
+            return;
+        }
 
-                enemy.PlayTurn();
+        Debug.Log("Starting AI turn!");
+        if (PlayerManager.Instance.IsRoundComplete())
+        {
+            if (this.AllActionsAreConsumed())
+            {
+                this.RestoreWalkAndActions();
             }
         }
+
+        EnemyPiece enemy = this.FindNextEnemyToPlay();
+
+        if (enemy != null && !enemy.IsDead)
+        {
+            enemy.IsTurnComplete = false;
+            enemy.PlayTurn();
+        }
+        else
+        {
+            Debug.Log("Cannot find enemy to play!");
+        }
+    }
+
+    private EnemyPiece FindNextEnemyToPlay()
+    {
+        return this.Pieces.Where(p => p.ActionConsumed == false)
+            .Cast<EnemyPiece>()
+            .OrderBy(p => p.Initiative)
+            .FirstOrDefault();
     }
 }

@@ -21,7 +21,7 @@ public class PieceMotor : MonoBehaviour
 
     private Piece piece;
 
-    public event Action<Piece> OnWalkConsumed;
+    public event Action<Piece> OnMovementComplete;
 
     private void Awake()
     {
@@ -85,9 +85,9 @@ public class PieceMotor : MonoBehaviour
         PlayerManager.Instance.InputEnabled = true;
         this.piece.WalkConsumed = true;
 
-        if (this.OnWalkConsumed != null)
+        if (this.OnMovementComplete != null)
         {
-            this.OnWalkConsumed(this.piece);
+            this.OnMovementComplete(this.piece);
         }
     }
 
