@@ -3,11 +3,33 @@ using UnityEngine;
 
 public class BoardManager : MonoBehaviour
 {
-    public static BoardManager Instance { get; set; }
+    #region Singleton
+    private static BoardManager _instance;
+
+    public static BoardManager Instance
+    {
+        get
+        {
+            return _instance;
+        }
+    }
+
+    private void Awake()
+    {
+        if (_instance != null)
+        {
+            Destroy(gameObject);
+        }
+        else
+        {
+            _instance = this;
+        }
+    }
+    #endregion
+
     private bool[,] AllowedMoves { get; set; }
 
     public Piece[,] Pieces { get; set; }
-    private Piece selectedPiece;
 
     private const float TILE_SIZE = 1f;
     private const float TILE_OFFSET = .5f;
@@ -24,34 +46,30 @@ public class BoardManager : MonoBehaviour
 
     public LayerMask layerMask;
 
-    private void Awake()
-    {
-        Instance = this;
-    }
-
-    private void Start()
-    {
-        SpawnAllPieces();
-    }
-
     private void Update()
     {
         UpdateSelection();
         DrawBoard();
 
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) && PlayerManager.Instance.InputEnabled)
         {
             if (this.selectionX >= 0 && this.selectionY >= 0)
             {
-                if (this.selectedPiece == null)
+                if (PlayerManager.Instance.SelectedPiece == null)
                 {
-                    // Select the piece
                     SelectPiece(this.selectionX, this.selectionY);
                 }
                 else
                 {
-                    // // try to move the piece
-                    MovePiece(this.selectionX, this.selectionY);
+                    Piece otherPiece = this.Pieces[this.selectionX, this.selectionY];
+                    if (otherPiece == null && !PlayerManager.Instance.SelectedPiece.WalkConsumed)
+                    {
+                        MovePiece(this.selectionX, this.selectionY);
+                    }
+                    else if (otherPiece != null && otherPiece != PlayerManager.Instance.SelectedPiece && !otherPiece.ActionConsumed)
+                    {
+                        SelectPiece(this.selectionX, this.selectionY);
+                    }
                 }
             }
         }
@@ -64,29 +82,37 @@ public class BoardManager : MonoBehaviour
             return;
         }
 
-        if (this.Pieces[x, y].IsHuman != IsHumanTurn)
+        BoardHighlights.Instance.HideHighlights();
+
+        if (this.Pieces[x, y].ActionConsumed || !this.Pieces[x, y].IsHuman)
         {
             return;
         }
 
-        this.AllowedMoves = this.Pieces[x, y].PossibleMoves();
-        this.selectedPiece = this.Pieces[x, y];
-        BoardHighlights.Instance.HighlightAllowedMoves(this.AllowedMoves);
+        if (!this.Pieces[x, y].WalkConsumed)
+        {
+            this.AllowedMoves = this.Pieces[x, y].PossibleMoves();
+            BoardHighlights.Instance.HighlightAllowedMoves(this.AllowedMoves);
+        }
+
+        PlayerManager.Instance.SelectedPiece = this.Pieces[x, y];
+        BoardHighlights.Instance.HighlightSelection(x, y);
     }
 
     private void MovePiece(int x, int y)
     {
         if (this.AllowedMoves[x, y])
         {
-            this.Pieces[this.selectedPiece.CurrentX, this.selectedPiece.CurrentY] = null;
-            this.selectedPiece.transform.position = this.GetTileCenter(x, y);
-            this.selectedPiece.SetPosition(x, y);
-            this.Pieces[x, y] = this.selectedPiece;
-            this.IsHumanTurn = !this.IsHumanTurn;
+            this.Pieces[PlayerManager.Instance.SelectedPiece.CurrentX, PlayerManager.Instance.SelectedPiece.CurrentY] = null;
+            //this.selectedPiece.transform.position = this.GetTileCenter(x, y);
+            PlayerManager.Instance.SelectedPiece.motor.Move(this.GetTileCenter(x, y));
+            PlayerManager.Instance.SelectedPiece.SetPosition(x, y);
+            this.Pieces[x, y] = PlayerManager.Instance.SelectedPiece;
+            //this.IsHumanTurn = !this.IsHumanTurn;
         }
 
         BoardHighlights.Instance.HideHighlights();
-        this.selectedPiece = null;
+        PlayerManager.Instance.SelectedPiece = null;
     }
 
     private void UpdateSelection()
@@ -109,17 +135,19 @@ public class BoardManager : MonoBehaviour
         }
     }
 
-    private void SpawnPiece(int index, int x, int y, Quaternion orientation)
+    private Piece SpawnPiece(int index, int x, int y, Quaternion orientation)
     {
         GameObject instance = Instantiate(piecePrefabs[index], this.GetTileCenter(x, y), orientation);
         instance.transform.SetParent(this.transform);
         this.Pieces[x, y] = instance.GetComponent<Piece>();
         this.Pieces[x, y].SetPosition(x, y);
         this.activePieces.Add(instance);
+
+        return instance.GetComponent<Piece>();
     }
 
     // TODO: change this hardcoded configuration by using some kind of battle configuration. Scriptable objects ?
-    private void SpawnAllPieces()
+    public void InitBoard()
     {
         this.activePieces = new List<GameObject>();
         this.Pieces = new Piece[8, 8];
@@ -132,17 +160,17 @@ public class BoardManager : MonoBehaviour
         // 5 CommandUnit
 
         // Spawn human force
-        SpawnPiece(2, 3, 3, Quaternion.identity);
-        SpawnPiece(0, 3, 0, Quaternion.identity);
-        SpawnPiece(1, 4, 0, Quaternion.identity);
-        SpawnPiece(2, 5, 0, Quaternion.identity);
+        PlayerManager.Instance.Pieces.Add(SpawnPiece(2, 3, 3, Quaternion.identity));
+        PlayerManager.Instance.Pieces.Add(SpawnPiece(0, 3, 0, Quaternion.identity));
+        PlayerManager.Instance.Pieces.Add(SpawnPiece(1, 4, 0, Quaternion.identity));
+        PlayerManager.Instance.Pieces.Add(SpawnPiece(2, 5, 0, Quaternion.identity));
 
         // Spawn AI force
-        SpawnPiece(3, 2, 6, faceCameraOrientation);
-        SpawnPiece(3, 5, 6, faceCameraOrientation);
-        SpawnPiece(3, 3, 6, faceCameraOrientation);
-        SpawnPiece(4, 1, 7, faceCameraOrientation);
-        SpawnPiece(5, 4, 7, faceCameraOrientation);
+        EnemyManager.Instance.Pieces.Add(SpawnPiece(3, 2, 6, faceCameraOrientation));
+        EnemyManager.Instance.Pieces.Add(SpawnPiece(3, 5, 6, faceCameraOrientation));
+        EnemyManager.Instance.Pieces.Add(SpawnPiece(3, 3, 6, faceCameraOrientation));
+        EnemyManager.Instance.Pieces.Add(SpawnPiece(4, 1, 7, faceCameraOrientation));
+        EnemyManager.Instance.Pieces.Add(SpawnPiece(5, 4, 7, faceCameraOrientation));
 
     }
 

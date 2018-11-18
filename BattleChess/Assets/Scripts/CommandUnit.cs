@@ -1,4 +1,4 @@
-﻿public class CommandUnit : Piece
+﻿public class CommandUnit : EnemyPiece
 {
 
     public override bool[,] PossibleMoves()

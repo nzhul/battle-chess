@@ -1,4 +1,4 @@
-﻿public class Drone : Piece
+﻿public class Drone : EnemyPiece
 {
     // TODO: Extract different directions into functions and then in PossibleMoves use only the functions:
     // Ex: Down, Up, Left, TopLeft ...

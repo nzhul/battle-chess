@@ -35,10 +35,19 @@ public class BoardHighlights : MonoBehaviour
         }
     }
 
+    public void HighlightSelection(int x, int y)
+    {
+        GameObject go = this.GetHighlightObject();
+        go.SetActive(true);
+        go.GetComponent<MeshRenderer>().material.color = Color.green;
+        go.transform.position = new Vector3(x + .5f, 0, y + .5f); //TODO: Use TILE_SIZE / 2;
+    }
+
     public void HideHighlights()
     {
         foreach (GameObject go in this.highlights)
         {
+            go.GetComponent<MeshRenderer>().material.color = Color.white;
             go.SetActive(false);
         }
     }

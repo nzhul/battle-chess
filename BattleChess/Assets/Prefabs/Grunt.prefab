@@ -37,6 +37,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4563118032077876}
   - component: {fileID: 114903039538165618}
+  - component: {fileID: 114428680830544716}
   m_Layer: 0
   m_Name: Grunt
   m_TagString: Untagged
@@ -332,6 +333,24 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1523924456071492}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &114428680830544716
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1309104077631102}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a180e1738c2739248936e4dfb967dec5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  destination: {x: 0, y: 0, z: 0}
+  faceDestination: 1
+  isMoving: 0
+  easeType: 17
+  moveSpeed: 1.5
+  rotateTime: 0.5
+  iTweenDelay: 0
 --- !u!114 &114903039538165618
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -347,3 +366,4 @@ MonoBehaviour:
   Hitpoints: 2
   AttackPower: 1
   IsHuman: 1
+  motor: {fileID: 0}

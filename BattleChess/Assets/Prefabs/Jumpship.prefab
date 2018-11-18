@@ -37,6 +37,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4648341754224292}
   - component: {fileID: 114392650267407298}
+  - component: {fileID: 114665654194724888}
   m_Layer: 0
   m_Name: Jumpship
   m_TagString: Untagged
@@ -274,3 +275,22 @@ MonoBehaviour:
   Hitpoints: 2
   AttackPower: 2
   IsHuman: 1
+  motor: {fileID: 0}
+--- !u!114 &114665654194724888
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1272398113189944}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a180e1738c2739248936e4dfb967dec5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  destination: {x: 0, y: 0, z: 0}
+  faceDestination: 1
+  isMoving: 0
+  easeType: 17
+  moveSpeed: 1.5
+  rotateTime: 0.5
+  iTweenDelay: 0

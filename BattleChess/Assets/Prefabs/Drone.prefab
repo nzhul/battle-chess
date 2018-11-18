@@ -87,7 +87,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4097432653607582}
-  - component: {fileID: 114682916827840442}
+  - component: {fileID: 114947349672062048}
+  - component: {fileID: 114834557167784604}
   m_Layer: 0
   m_Name: Drone
   m_TagString: Untagged
@@ -405,7 +406,7 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1129663352508070}
   m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
---- !u!114 &114682916827840442
+--- !u!114 &114834557167784604
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
@@ -420,3 +421,22 @@ MonoBehaviour:
   Hitpoints: 1
   AttackPower: 1
   IsHuman: 0
+  motor: {fileID: 0}
+--- !u!114 &114947349672062048
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1941612271680786}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a180e1738c2739248936e4dfb967dec5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  destination: {x: 0, y: 0, z: 0}
+  faceDestination: 1
+  isMoving: 0
+  easeType: 17
+  moveSpeed: 1.5
+  rotateTime: 0.5
+  iTweenDelay: 0
