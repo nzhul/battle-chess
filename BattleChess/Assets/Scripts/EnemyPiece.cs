@@ -17,13 +17,12 @@ public abstract class EnemyPiece : Piece
 
         sensor = GetComponent<EnemySensor>();
         this.IsTurnComplete = true;
-        this.motor.OnMovementComplete += Motor_OnMovementComplete;
+        this.motor.OnMovementComplete += Motor_OnMovementComplete; //TODO: Move this logic in every ENEMY Piece: Drone, Drag, CommandUnit
     }
 
     private void Motor_OnMovementComplete(Piece obj)
     {
-        // TODO: change this with throwing new Event -> OnTurnComplete.
-        obj.FinishTurn();
+        obj.InvokeOnTurnComplete();
     }
 
     public void PlayTurn()
@@ -44,12 +43,8 @@ public abstract class EnemyPiece : Piece
         {
             yield return new WaitForSeconds(0f);
             this.ExecuteTurn();
-            //this.FinishTurn();
         }
     }
 
-    protected virtual void ExecuteTurn()
-    {
-        this.FinishTurn();
-    }
+    protected abstract void ExecuteTurn();
 }

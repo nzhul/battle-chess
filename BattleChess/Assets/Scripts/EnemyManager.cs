@@ -50,6 +50,14 @@ public class EnemyManager : PieceManager
         return true;
     }
 
+    public void CompleteEnemiesTurn()
+    {
+        foreach (var enemy in this.Pieces)
+        {
+            enemy.IsTurnComplete = true;
+        }
+    }
+
     public bool AreEnemiesAllDead()
     {
         foreach (var enemy in this.Pieces)
@@ -70,15 +78,6 @@ public class EnemyManager : PieceManager
             return;
         }
 
-        Debug.Log("Starting AI turn!");
-        if (PlayerManager.Instance.IsRoundComplete())
-        {
-            if (this.AllActionsAreConsumed())
-            {
-                this.RestoreWalkAndActions();
-            }
-        }
-
         EnemyPiece enemy = this.FindNextEnemyToPlay();
 
         if (enemy != null && !enemy.IsDead)
@@ -88,7 +87,9 @@ public class EnemyManager : PieceManager
         }
         else
         {
-            Debug.Log("Cannot find enemy to play!");
+            Debug.Log("Cannot find enemy to play! Skipping AI Round!");
+            this.CompleteEnemiesTurn();
+            GameManager.Instance.UpdateTurn();
         }
     }
 

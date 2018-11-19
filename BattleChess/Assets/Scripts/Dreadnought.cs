@@ -1,4 +1,6 @@
-﻿public class Dreadnought : EnemyPiece
+﻿using UnityEngine;
+
+public class Dreadnought : EnemyPiece
 {
     protected override void ExecuteTurn()
     {
@@ -16,12 +18,20 @@
     {
         Coord destination = this.TryFindDestination();
 
+        // PATHFINDING ALTERNATIVE!!!!:
+        // From all availible destinations -> pick the one that is furthest from this.sensor.ClosestHumanPiece
+
         if (destination != null)
         {
             BoardManager.Instance.Pieces[this.CurrentX, this.CurrentY] = null;
             base.motor.Move(BoardManager.Instance.GetTileCenter(destination.X, destination.Y));
             this.SetPosition(destination.X, destination.Y);
             BoardManager.Instance.Pieces[destination.X, destination.Y] = this;
+        }
+        else
+        {
+            Debug.Log(string.Format("Dreadnought at {0}:{1} cannot find destination. Skipping movement!", this.CurrentX, this.CurrentY));
+            this.motor.InvokeOnMovementComplete();
         }
     }
 

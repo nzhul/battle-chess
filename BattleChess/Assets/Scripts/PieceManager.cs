@@ -6,7 +6,7 @@ public class PieceManager : MonoBehaviour
 {
     public List<Piece> Pieces;
 
-    protected void RestoreWalkAndActions()
+    public void RestoreWalkAndActions()
     {
         Debug.Log("Restoring " + GetType().Name + " walk and actions!");
         foreach (var piece in this.Pieces)
@@ -16,7 +16,7 @@ public class PieceManager : MonoBehaviour
         }
     }
 
-    protected bool AllActionsAreConsumed()
+    public bool AllActionsAreConsumed()
     {
         foreach (var piece in this.Pieces)
         {

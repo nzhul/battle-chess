@@ -85,6 +85,11 @@ public class PieceMotor : MonoBehaviour
         PlayerManager.Instance.InputEnabled = true;
         this.piece.WalkConsumed = true;
 
+        this.InvokeOnMovementComplete();
+    }
+
+    public void InvokeOnMovementComplete()
+    {
         if (this.OnMovementComplete != null)
         {
             this.OnMovementComplete(this.piece);

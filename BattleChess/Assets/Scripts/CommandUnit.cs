@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 public class CommandUnit : EnemyPiece
@@ -21,6 +20,11 @@ public class CommandUnit : EnemyPiece
             this.SetPosition(destination.X, destination.Y);
             BoardManager.Instance.Pieces[destination.X, destination.Y] = this;
         }
+        else
+        {
+            Debug.Log(string.Format("CommandUnit at {0}:{1} cannot find destination. Skipping movement!", this.CurrentX, this.CurrentY));
+            this.motor.InvokeOnMovementComplete();
+        }
     }
 
     private Coord TryFindDestination()
@@ -38,6 +42,9 @@ public class CommandUnit : EnemyPiece
             // TODO: Change this with Random.
             // Dont forget that the CommandUnit must try to go away from closest human piece!
             // I will have to implement pathfinding!
+
+            // PATHFINDING ALTERNATIVE!!!!:
+            // From all availible destinations -> pick the one that is furthest from this.sensor.ClosestHumanPiece
 
             destination = possibleDestinations[Random.Range(0, 2)];
         }

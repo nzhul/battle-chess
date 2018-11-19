@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -47,6 +48,10 @@ public class BoardManager : MonoBehaviour
 
     public LayerMask layerMask;
 
+    public event Action OnBoardInit;
+
+    public int InitialPiecesCount { get; set; }
+
     private void Update()
     {
         UpdateSelection();
@@ -76,7 +81,7 @@ public class BoardManager : MonoBehaviour
         }
     }
 
-    private void SelectPiece(int x, int y)
+    public void SelectPiece(int x, int y)
     {
         if (this.Pieces[x, y] == null)
         {
@@ -141,6 +146,7 @@ public class BoardManager : MonoBehaviour
         this.Pieces[x, y] = instance.GetComponent<Piece>();
         this.Pieces[x, y].SetPosition(x, y);
         this.activePieces.Add(instance);
+        this.InitialPiecesCount++;
 
         return instance.GetComponent<Piece>();
     }
@@ -159,9 +165,9 @@ public class BoardManager : MonoBehaviour
         // 5 CommandUnit
 
         // Spawn human force
-        //PlayerManager.Instance.Pieces.Add(SpawnPiece(2, 3, 3, Quaternion.identity));
-        //PlayerManager.Instance.Pieces.Add(SpawnPiece(0, 3, 0, Quaternion.identity));
-        //PlayerManager.Instance.Pieces.Add(SpawnPiece(1, 4, 0, Quaternion.identity));
+        PlayerManager.Instance.Pieces.Add(SpawnPiece(2, 4, 3, Quaternion.identity));
+        PlayerManager.Instance.Pieces.Add(SpawnPiece(0, 3, 0, Quaternion.identity));
+        PlayerManager.Instance.Pieces.Add(SpawnPiece(1, 4, 0, Quaternion.identity));
         PlayerManager.Instance.Pieces.Add(SpawnPiece(2, 5, 0, Quaternion.identity));
 
         // Spawn AI force
@@ -171,6 +177,14 @@ public class BoardManager : MonoBehaviour
         EnemyManager.Instance.Pieces.Add(SpawnPiece(4, 1, 7, faceCameraOrientation));
         EnemyManager.Instance.Pieces.Add(SpawnPiece(5, 4, 7, faceCameraOrientation));
 
+        // Drone at human start
+        //EnemyManager.Instance.Pieces.Add(SpawnPiece(3, 0, 0, faceCameraOrientation));
+
+
+        if (this.OnBoardInit != null)
+        {
+            this.OnBoardInit();
+        }
     }
 
     public Vector3 GetTileCenter(int x, int y)

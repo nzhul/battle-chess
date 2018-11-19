@@ -35,12 +35,26 @@ public abstract class Piece : MonoBehaviour
     protected virtual void Awake()
     {
         this.motor = GetComponent<PieceMotor>();
+        this.OnTurnCompleted += Piece_OnTurnCompleted;
+    }
+
+    private void Piece_OnTurnCompleted(Piece obj)
+    {
+        this.FinishTurn();
     }
 
     public void SetPosition(int x, int y)
     {
         this.CurrentX = x;
         this.CurrentY = y;
+    }
+
+    public void InvokeOnTurnComplete()
+    {
+        if (this.OnTurnCompleted != null)
+        {
+            this.OnTurnCompleted(this);
+        }
     }
 
     public virtual bool[,] PossibleMoves()

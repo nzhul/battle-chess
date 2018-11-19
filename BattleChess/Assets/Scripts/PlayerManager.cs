@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 public class PlayerManager : PieceManager
@@ -30,6 +29,31 @@ public class PlayerManager : PieceManager
     }
     #endregion
 
+    private void Start()
+    {
+        BoardManager.Instance.OnBoardInit += BoardManager_OnBoardInit;
+    }
+
+    private void BoardManager_OnBoardInit()
+    {
+        for (int x = 0; x < BoardManager.Instance.Pieces.GetLength(0); x++)
+        {
+            for (int y = 0; y < BoardManager.Instance.Pieces.GetLength(1); y++)
+            {
+                Piece p = BoardManager.Instance.Pieces[x, y];
+                if (p != null && p.IsHuman)
+                {
+                    BoardManager.Instance.Pieces[x, y].motor.OnMovementComplete += Motor_OnMovementComplete;
+                }
+            }
+        }
+    }
+
+    private void Motor_OnMovementComplete(Piece obj)
+    {
+        BoardManager.Instance.SelectPiece(obj.CurrentX, obj.CurrentY);
+    }
+
     bool _inputEnabled = false;
     public bool InputEnabled { get { return _inputEnabled; } set { _inputEnabled = value; } }
 
@@ -57,7 +81,7 @@ public class PlayerManager : PieceManager
             // TODO extract this into action and subscribe somewhere.
             BoardHighlights.Instance.HideHighlights();
             this.IsTurnComplete = true;
-            this.SelectedPiece.FinishTurn();
+            this.SelectedPiece.InvokeOnTurnComplete();
             this.SelectedPiece = null;
         }
         else
@@ -68,20 +92,12 @@ public class PlayerManager : PieceManager
 
     public void StartHumanTurn()
     {
-        Debug.Log("Starting Human turn!");
-
-        if (EnemyManager.Instance.IsRoundComplete())
-        {
-            if (this.AllActionsAreConsumed())
-            {
-                this.RestoreWalkAndActions();
-            }
-        }
-
         this.InputEnabled = true;
         this.IsTurnComplete = false;
 
-        if (this.IsRoundComplete())
+        // HACK: this check is invoked before the Event callback in RoundManager
+        // thats why i compare with > 1 and not > 0
+        if (this.IsRoundComplete() && RoundManager.Instance.PieceActionsLeft > 1)
         {
             // Skipping human turn because he have no more actions for this round!
             // must wait for AI to play all his pieces!
