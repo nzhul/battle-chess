@@ -1006,7 +1006,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1452685765
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1431,7 +1431,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   piecePrefabs:
   - {fileID: 1309104077631102, guid: 83b3237dac415b145b998d5fe742b8a5, type: 2}
-  - {fileID: 1272398113189944, guid: e8693885d010bc74db8da98e645595c5, type: 2}
+  - {fileID: 1613197825564636, guid: 6227965df7e53e340a3e37e69e0c8fc0, type: 2}
   - {fileID: 1957289545196710, guid: a07edc01969f7fd45bfb716368884a8c, type: 2}
   - {fileID: 1941612271680786, guid: 7a01433cde6f6544badac21f626d582e, type: 2}
   - {fileID: 1837963011913540, guid: d1caceb156cb7314aaec1b37835783ec, type: 2}
