@@ -93,6 +93,31 @@ public class PlayerManager : PieceManager
         }
     }
 
+    public void Defend()
+    {
+        if (this.SelectedPiece != null)
+        {
+            if (this.SelectedPiece.ActionConsumed)
+            {
+                Debug.Log("This unit has already consumed his action");
+                return;
+            }
+
+            this.SelectedPiece.ActionConsumed = true;
+            this.SelectedPiece.WalkConsumed = true;
+
+            // TODO extract this into action and subscribe somewhere.
+            BoardHighlights.Instance.HideHighlights();
+            this.IsTurnComplete = true;
+            this.SelectedPiece.InvokeOnTurnComplete();
+            this.SelectedPiece = null;
+        }
+        else
+        {
+            Debug.Log("Please select a piece");
+        }
+    }
+
     public void StartHumanTurn()
     {
         this.InputEnabled = true;
