@@ -1,5 +1,5 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(EnemySensor))]
@@ -30,7 +30,10 @@ public abstract class EnemyPiece : Piece
         StartCoroutine(PlayTurnRoutine());
     }
 
-    // main enemy routine: detect closest human piece. Move towards it for possible. Attack the piece if possible.
+    // main enemy routine: 
+    // Detect closest human piece. 
+    // Move towards it for possible. 
+    // Attack the piece if possible.
     IEnumerator PlayTurnRoutine()
     {
         if (GameManager.Instance != null && !GameManager.Instance.IsGameOver)
@@ -39,6 +42,46 @@ public abstract class EnemyPiece : Piece
             this.ExecuteTurn();
         }
     }
+
+    protected virtual void TryMove()
+    {
+        Coord destination = this.TryFindDestination();
+
+        if (destination != null)
+        {
+            BoardManager.Instance.Pieces[this.CurrentX, this.CurrentY] = null;
+            base.motor.Move(BoardManager.Instance.GetTileCenter(destination.X, destination.Y));
+            this.SetPosition(destination.X, destination.Y);
+            BoardManager.Instance.Pieces[destination.X, destination.Y] = this;
+        }
+        else
+        {
+            Debug.Log(string.Format("CommandUnit at {0}:{1} cannot find destination. Skipping movement!", this.CurrentX, this.CurrentY));
+            this.motor.InvokeOnMovementComplete();
+        }
+    }
+
+    protected virtual List<Coord> FindPossibleDestinations()
+    {
+        List<Coord> destinations = new List<Coord>();
+
+        bool[,] allowedMoves = this.PossibleMoves();
+
+        for (int x = 0; x < allowedMoves.GetLength(0); x++)
+        {
+            for (int y = 0; y < allowedMoves.GetLength(1); y++)
+            {
+                if (allowedMoves[x, y])
+                {
+                    destinations.Add(new Coord(x, y));
+                }
+            }
+        }
+
+        return destinations;
+    }
+
+    protected abstract Coord TryFindDestination();
 
     protected abstract void ExecuteTurn();
 }

@@ -1,6 +1,4 @@
-﻿using UnityEngine;
-
-public class Drone : EnemyPiece
+﻿public class Drone : EnemyPiece
 {
     protected override void Awake()
     {
@@ -16,7 +14,8 @@ public class Drone : EnemyPiece
 
     protected override void ExecuteTurn()
     {
-        this.TryMoveForward();
+        this.sensor.DetectClosestTarget();
+        this.TryMove();
         base.sensor.DetectPossibleAttackTargets();
         this.ShootAtRandomTargetIfPossible();
     }
@@ -26,26 +25,7 @@ public class Drone : EnemyPiece
         //throw new NotImplementedException();
     }
 
-    private void TryMoveForward()
-    {
-        Coord destination = this.TryFindDestination();
-
-        //TODO: Extract this logic for actual movement. Leave here only the finding of the destination
-        if (destination != null)
-        {
-            BoardManager.Instance.Pieces[this.CurrentX, this.CurrentY] = null;
-            base.motor.Move(BoardManager.Instance.GetTileCenter(destination.X, destination.Y));
-            this.SetPosition(destination.X, destination.Y);
-            BoardManager.Instance.Pieces[destination.X, destination.Y] = this;
-        }
-        else
-        {
-            Debug.Log(string.Format("Drone at {0}:{1} cannot find destination. Skipping movement!", this.CurrentX, this.CurrentY));
-            this.motor.InvokeOnMovementComplete();
-        }
-    }
-
-    private Coord TryFindDestination()
+    protected override Coord TryFindDestination()
     {
         Coord destination = null;
 

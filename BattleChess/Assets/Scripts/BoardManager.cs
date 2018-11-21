@@ -181,14 +181,18 @@ public class BoardManager : MonoBehaviour
         //PlayerManager.Instance.Pieces.Add(SpawnPiece(0, 1, 1, Quaternion.identity));
         //PlayerManager.Instance.Pieces.Add(SpawnPiece(2, 7, 1, Quaternion.identity));
 
-
-
         // Drone at human start
         //EnemyManager.Instance.Pieces.Add(SpawnPiece(3, 0, 0, faceCameraOrientation));
 
 
         // Dreadnought Scenario
         // EnemyManager.Instance.Pieces.Add(SpawnPiece(4, 3, 7, faceCameraOrientation)); // Dreadnought
+
+
+        //// CommandUnit scenario
+        //PlayerManager.Instance.Pieces.Add(SpawnPiece(2, 2, 7, Quaternion.identity)); // Tank
+        //PlayerManager.Instance.Pieces.Add(SpawnPiece(0, 5, 7, Quaternion.identity)); // Grunt
+        //EnemyManager.Instance.Pieces.Add(SpawnPiece(5, 3, 7, faceCameraOrientation)); // CommandUnit
 
 
         if (this.OnBoardInit != null)
