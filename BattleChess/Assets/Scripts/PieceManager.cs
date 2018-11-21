@@ -8,7 +8,7 @@ public class PieceManager : MonoBehaviour
 
     public void RestoreWalkAndActions()
     {
-        Debug.Log("Restoring " + GetType().Name + " walk and actions!");
+        // Debug.Log("Restoring " + GetType().Name + " walk and actions!");
         foreach (var piece in this.Pieces)
         {
             piece.WalkConsumed = false;

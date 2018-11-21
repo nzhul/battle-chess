@@ -163,22 +163,32 @@ public class BoardManager : MonoBehaviour
         // 3 Drone
         // 4 Dreadnought
         // 5 CommandUnit
+        // 6 Human Dreadnought
 
         // Spawn human force
-        PlayerManager.Instance.Pieces.Add(SpawnPiece(2, 4, 3, Quaternion.identity));
-        PlayerManager.Instance.Pieces.Add(SpawnPiece(0, 3, 0, Quaternion.identity));
-        PlayerManager.Instance.Pieces.Add(SpawnPiece(1, 4, 0, Quaternion.identity));
-        PlayerManager.Instance.Pieces.Add(SpawnPiece(2, 5, 0, Quaternion.identity));
+        PlayerManager.Instance.Pieces.Add(SpawnPiece(2, 4, 3, Quaternion.identity)); // Tank
+        PlayerManager.Instance.Pieces.Add(SpawnPiece(0, 3, 0, Quaternion.identity)); // Grunt
+        PlayerManager.Instance.Pieces.Add(SpawnPiece(1, 4, 0, Quaternion.identity)); // Jumpship
 
         // Spawn AI force
-        EnemyManager.Instance.Pieces.Add(SpawnPiece(3, 2, 6, faceCameraOrientation));
-        EnemyManager.Instance.Pieces.Add(SpawnPiece(3, 5, 6, faceCameraOrientation));
-        EnemyManager.Instance.Pieces.Add(SpawnPiece(3, 3, 6, faceCameraOrientation));
-        EnemyManager.Instance.Pieces.Add(SpawnPiece(4, 1, 7, faceCameraOrientation));
-        EnemyManager.Instance.Pieces.Add(SpawnPiece(5, 4, 7, faceCameraOrientation));
+        EnemyManager.Instance.Pieces.Add(SpawnPiece(3, 2, 6, faceCameraOrientation)); // Drone
+        EnemyManager.Instance.Pieces.Add(SpawnPiece(3, 5, 6, faceCameraOrientation)); // Drone
+        EnemyManager.Instance.Pieces.Add(SpawnPiece(3, 3, 6, faceCameraOrientation)); // Drone
+        EnemyManager.Instance.Pieces.Add(SpawnPiece(4, 1, 7, faceCameraOrientation)); // Dreadnought
+        EnemyManager.Instance.Pieces.Add(SpawnPiece(5, 3, 7, faceCameraOrientation)); // CommandUnit
+
+        // tanks in enemy line
+        //PlayerManager.Instance.Pieces.Add(SpawnPiece(0, 1, 1, Quaternion.identity));
+        //PlayerManager.Instance.Pieces.Add(SpawnPiece(2, 7, 1, Quaternion.identity));
+
+
 
         // Drone at human start
         //EnemyManager.Instance.Pieces.Add(SpawnPiece(3, 0, 0, faceCameraOrientation));
+
+
+        // Dreadnought Scenario
+        // EnemyManager.Instance.Pieces.Add(SpawnPiece(4, 3, 7, faceCameraOrientation)); // Dreadnought
 
 
         if (this.OnBoardInit != null)

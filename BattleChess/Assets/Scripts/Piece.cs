@@ -31,6 +31,10 @@ public abstract class Piece : MonoBehaviour
     [HideInInspector]
     public PieceMotor motor;
 
+    private void Piece_OnTurnCompleted(Piece obj)
+    {
+        this.FinishTurn();
+    }
 
     protected virtual void Awake()
     {
@@ -38,9 +42,14 @@ public abstract class Piece : MonoBehaviour
         this.OnTurnCompleted += Piece_OnTurnCompleted;
     }
 
-    private void Piece_OnTurnCompleted(Piece obj)
+    protected float GetDistanceToPosition(Vector3 position)
     {
-        this.FinishTurn();
+        return (position - transform.position).sqrMagnitude;
+    }
+
+    protected float GetDistanceBetweenPositions(Vector3 p1, Vector3 p2)
+    {
+        return (p1 - p2).sqrMagnitude;
     }
 
     public void SetPosition(int x, int y)

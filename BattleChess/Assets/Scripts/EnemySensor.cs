@@ -9,6 +9,8 @@ public class EnemySensor : MonoBehaviour
 
     public List<Piece> AttackTargets { get; set; }
 
+    public float ClosestEnemyDistance { get; set; }
+
     private Piece _piece;
     private Type _pieceType;
 
@@ -31,11 +33,12 @@ public class EnemySensor : MonoBehaviour
             if (sqrDistance < lowestDistance)
             {
                 lowestDistance = sqrDistance;
+                this.ClosestEnemyDistance = lowestDistance;
                 this.ClosestHumanPiece = target;
             }
         }
 
-        Debug.Log(_pieceType.Name + " closest target is " + this.ClosestHumanPiece.name);
+        // Debug.Log(_pieceType.Name + " closest target is " + this.ClosestHumanPiece.name);
     }
 
     // We already moved towards human piece and no will attack, but first we need to detect all possible targets.

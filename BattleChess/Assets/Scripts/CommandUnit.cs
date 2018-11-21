@@ -3,11 +3,28 @@ using UnityEngine;
 
 public class CommandUnit : EnemyPiece
 {
+    protected override void Awake()
+    {
+        base.Awake();
+
+        this.motor.OnMovementComplete += Motor_OnMovementComplete; //TODO: Move this logic in every ENEMY Piece: Drone, Drag, CommandUnit
+    }
+
+    private void Motor_OnMovementComplete(Piece obj)
+    {
+        obj.InvokeOnTurnComplete();
+    }
+
     protected override void ExecuteTurn()
     {
+        this.sensor.DetectClosestTarget();
         this.TryMoveSideway();
     }
 
+    // The command unit will try to move sideways without changing his X value
+    // and also will try to avoid enemy if possible
+    // if only possible destination will get the unit closer to the enemy.
+    // command unit should skip the turn instead of moving.
     private void TryMoveSideway()
     {
         Coord destination = this.TryFindDestination();
@@ -33,25 +50,68 @@ public class CommandUnit : EnemyPiece
 
         List<Coord> possibleDestinations = this.FindPossibleDestinations();
 
-        // TODO:
-        // use Pathfinding for all possible destinations
-        // choose the path where distance from closest enemy is biggest!
-
         if (possibleDestinations != null && possibleDestinations.Count > 0)
         {
-            // TODO: Change this with Random.
-            // Dont forget that the CommandUnit must try to go away from closest human piece!
-            // I will have to implement pathfinding!
-
-            // PATHFINDING ALTERNATIVE!!!!:
-            // From all availible destinations -> pick the one that is furthest from this.sensor.ClosestHumanPiece
-
-            destination = possibleDestinations[Random.Range(0, 2)];
+            destination = this.PickSafestPosition(possibleDestinations);
         }
 
         return destination;
     }
 
+    private bool NewDestinationIsDangerous(Coord destination)
+    {
+        foreach (var enemy in PlayerManager.Instance.Pieces)
+        {
+            float distanceToEnemy = this.GetDistanceToPosition(enemy.transform.position);
+            if (distanceToEnemy <= this.sensor.ClosestEnemyDistance)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private Coord PickSafestPosition(List<Coord> possibleDestinations)
+    {
+        Coord safePosition = null;
+
+        for (int i = 0; i < possibleDestinations.Count; i++)
+        {
+            Coord newPosition = possibleDestinations[i];
+            Vector3 targetPosition = BoardManager.Instance.GetTileCenter(newPosition.X, newPosition.Y);
+
+            float newPositionClosestEnemyDistance = this.FindClosestEnemyDistance(targetPosition);
+
+            if (newPositionClosestEnemyDistance > this.sensor.ClosestEnemyDistance)
+            {
+                safePosition = newPosition;
+            }
+
+        }
+
+        return safePosition;
+    }
+
+    //TODO: this method is almost identical to Piece.cs -> GetDistanceToPosition() - Refactor
+    private float FindClosestEnemyDistance(Vector3 targetPosition)
+    {
+        float lowestDistance = float.MaxValue;
+
+        foreach (var target in PlayerManager.Instance.Pieces)
+        {
+            float sqrDistance = (target.transform.position - targetPosition).sqrMagnitude;
+            if (sqrDistance < lowestDistance)
+            {
+                lowestDistance = sqrDistance;
+            }
+        }
+
+        return lowestDistance;
+    }
+
+    // From all possible destinations.
+    // here we will pick the furthest from us!
     private List<Coord> FindPossibleDestinations()
     {
         List<Coord> destinations = new List<Coord>();
@@ -62,6 +122,7 @@ public class CommandUnit : EnemyPiece
         int minXY = 0;
         int maxX = int.MinValue;
         int maxXY = 0;
+
 
         for (int x = 0; x < allowedMoves.GetLength(0); x++)
         {
@@ -92,6 +153,13 @@ public class CommandUnit : EnemyPiece
         if (maxX != int.MinValue)
         {
             destinations.Add(new Coord(maxX, maxXY));
+        }
+
+        // If we have only one possible destination we should remove 
+        // one of the destinations because they are the same
+        if (destinations.Count > 0 && minX == maxX)
+        {
+            destinations.RemoveAt(destinations.Count - 1);
         }
 
         return destinations;

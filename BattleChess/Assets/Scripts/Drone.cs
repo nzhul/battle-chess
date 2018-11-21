@@ -2,6 +2,18 @@
 
 public class Drone : EnemyPiece
 {
+    protected override void Awake()
+    {
+        base.Awake();
+
+        this.motor.OnMovementComplete += Motor_OnMovementComplete; //TODO: Move this logic in every ENEMY Piece: Drone, Drag, CommandUnit
+    }
+
+    private void Motor_OnMovementComplete(Piece obj)
+    {
+        obj.InvokeOnTurnComplete();
+    }
+
     protected override void ExecuteTurn()
     {
         this.TryMoveForward();
