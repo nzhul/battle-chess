@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 4371124983628610}
   - component: {fileID: 114615130449648528}
   - component: {fileID: 114835727568069532}
+  - component: {fileID: 114389008777550268}
   m_Layer: 0
   m_Name: Jumpship
   m_TagString: Untagged
@@ -133,6 +134,17 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &114389008777550268
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1613197825564636}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 11e494c4c168b6a408c492cde83b2c88, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114615130449648528
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -147,8 +159,12 @@ MonoBehaviour:
   Speed: 0
   Hitpoints: 2
   AttackPower: 2
+  ShootRange: 1
+  DetectionMethod: 1
+  AttackMethod: 1
   IsHuman: 1
   motor: {fileID: 0}
+  sensor: {fileID: 0}
 --- !u!114 &114835727568069532
 MonoBehaviour:
   m_ObjectHideFlags: 1

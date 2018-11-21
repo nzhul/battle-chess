@@ -89,6 +89,7 @@ GameObject:
   - component: {fileID: 4370245944633182}
   - component: {fileID: 114131012892040652}
   - component: {fileID: 114507524770052152}
+  - component: {fileID: 114294498681953144}
   m_Layer: 0
   m_Name: Tank
   m_TagString: Untagged
@@ -347,8 +348,23 @@ MonoBehaviour:
   Speed: 10
   Hitpoints: 1
   AttackPower: 1
+  ShootRange: 1
+  DetectionMethod: 1
+  AttackMethod: 0
   IsHuman: 1
   motor: {fileID: 0}
+  sensor: {fileID: 0}
+--- !u!114 &114294498681953144
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1957289545196710}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 11e494c4c168b6a408c492cde83b2c88, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114507524770052152
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -11,8 +11,11 @@ public class PieceManager : MonoBehaviour
         // Debug.Log("Restoring " + GetType().Name + " walk and actions!");
         foreach (var piece in this.Pieces)
         {
-            piece.WalkConsumed = false;
-            piece.ActionConsumed = false;
+            if (!piece.IsDead)
+            {
+                piece.WalkConsumed = false;
+                piece.ActionConsumed = false;
+            }
         }
     }
 
@@ -28,8 +31,20 @@ public class PieceManager : MonoBehaviour
         return true;
     }
 
-    public bool IsRoundComplete()
+    public bool HaveRemainingPiecesToAct()
     {
-        return !this.Pieces.Any(p => !p.ActionConsumed);
+        bool result = false;
+
+        foreach (var piece in this.Pieces)
+        {
+            if (!piece.ActionConsumed)
+            {
+                result = true;
+            }
+        }
+
+        return result;
+        // are there any pieces that have not completed their action ?
+        //return this.Pieces.Any(p => !p.ActionConsumed);
     }
 }

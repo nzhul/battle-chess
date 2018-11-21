@@ -75,6 +75,9 @@ public class PlayerManager : PieceManager
             // mark the possible targets on the battle field
             // a player is in targeting mode. He must select a target or press cancel/escape
 
+            this.SelectedPiece.sensor.DetectPossibleAttackTargets();
+            this.SelectedPiece.Shoot();
+
             this.SelectedPiece.ActionConsumed = true;
             this.SelectedPiece.WalkConsumed = true;
 
@@ -97,7 +100,7 @@ public class PlayerManager : PieceManager
 
         // HACK: this check is invoked before the Event callback in RoundManager
         // thats why i compare with > 1 and not > 0
-        if (this.IsRoundComplete() && RoundManager.Instance.PieceActionsLeft > 1)
+        if (!this.HaveRemainingPiecesToAct() && (RoundManager.Instance.PlayerActionsLeft == 0))
         {
             // Skipping human turn because he have no more actions for this round!
             // must wait for AI to play all his pieces!

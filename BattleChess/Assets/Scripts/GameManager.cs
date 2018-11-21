@@ -158,7 +158,7 @@ public class GameManager : MonoBehaviour
 
     public void UpdateTurn()
     {
-        if (_currentTurn == Turn.Human && PlayerManager.Instance != null)
+        if (_currentTurn == Turn.Human)
         {
             if (PlayerManager.Instance.IsTurnComplete && !EnemyManager.Instance.AreEnemiesAllDead())
             {

@@ -2,11 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(EnemySensor))]
+[RequireComponent(typeof(Sensor))]
 public abstract class EnemyPiece : Piece
 {
-    protected EnemySensor sensor;
-
     [Tooltip("Determines the order of taking an action compared to other AI pieces. " +
         "Higher is better. Ex: Piece with Initiative 2 will act before piece with initiative 1")]
     public int Initiative = 0;
@@ -14,8 +12,6 @@ public abstract class EnemyPiece : Piece
     protected override void Awake()
     {
         base.Awake();
-
-        sensor = GetComponent<EnemySensor>();
         this.IsTurnComplete = true;
     }
 

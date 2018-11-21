@@ -494,6 +494,9 @@ MonoBehaviour:
   Speed: 10
   Hitpoints: 1
   AttackPower: 1
+  ShootRange: 1
+  DetectionMethod: 2
+  AttackMethod: 1
   IsHuman: 0
   motor: {fileID: 0}
   Initiative: 1

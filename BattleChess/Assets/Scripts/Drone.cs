@@ -3,11 +3,10 @@
     protected override void Awake()
     {
         base.Awake();
-
-        this.motor.OnMovementComplete += Motor_OnMovementComplete; //TODO: Move this logic in every ENEMY Piece: Drone, Drag, CommandUnit
+        this.OnAttackComplete += Drone_OnAttackComplete;
     }
 
-    private void Motor_OnMovementComplete(Piece obj)
+    private void Drone_OnAttackComplete(Piece obj)
     {
         obj.InvokeOnTurnComplete();
     }
@@ -17,12 +16,7 @@
         this.sensor.DetectClosestTarget();
         this.TryMove();
         base.sensor.DetectPossibleAttackTargets();
-        this.ShootAtRandomTargetIfPossible();
-    }
-
-    private void ShootAtRandomTargetIfPossible()
-    {
-        //throw new NotImplementedException();
+        this.Shoot();
     }
 
     protected override Coord TryFindDestination()

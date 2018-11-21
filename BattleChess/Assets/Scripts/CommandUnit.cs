@@ -35,20 +35,6 @@ public class CommandUnit : EnemyPiece
         return destination;
     }
 
-    private bool NewDestinationIsDangerous(Coord destination)
-    {
-        foreach (var enemy in PlayerManager.Instance.Pieces)
-        {
-            float distanceToEnemy = this.GetDistanceToPosition(enemy.transform.position);
-            if (distanceToEnemy <= this.sensor.ClosestEnemyDistance)
-            {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
     private Coord PickSafestPosition(List<Coord> possibleDestinations)
     {
         Coord position = null;
@@ -67,6 +53,11 @@ public class CommandUnit : EnemyPiece
                 bestDistance = distance;
                 position = newPosition;
             }
+        }
+
+        if (position == null)
+        {
+            Debug.Log(string.Format("{0} cannot find safe position.", this.PieceType.Name));
         }
 
         return position;

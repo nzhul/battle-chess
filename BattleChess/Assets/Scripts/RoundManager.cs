@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using UnityEngine;
 
 public class RoundManager : MonoBehaviour
@@ -34,11 +35,17 @@ public class RoundManager : MonoBehaviour
         BoardManager.Instance.OnBoardInit += BoardManager_OnBoardInit;
     }
 
-    public int PieceActionsLeft { get; set; }
+    public int TotalActionsLeft { get; set; }
+
+    public int PlayerActionsLeft { get; set; }
+
+    public int AIActionsLeft { get; set; }
 
     private void BoardManager_OnBoardInit()
     {
-        this.PieceActionsLeft = BoardManager.Instance.InitialPiecesCount;
+        this.TotalActionsLeft = BoardManager.Instance.InitialPiecesCount;
+        this.PlayerActionsLeft = PlayerManager.Instance.Pieces.Count;
+        this.AIActionsLeft = EnemyManager.Instance.Pieces.Count;
 
         for (int x = 0; x < BoardManager.Instance.Pieces.GetLength(0); x++)
         {
@@ -55,17 +62,30 @@ public class RoundManager : MonoBehaviour
 
     private void RoundManager_OnTurnCompleted(Piece obj)
     {
-        this.PieceActionsLeft--;
+        this.TotalActionsLeft--;
 
-        if (this.PieceActionsLeft == 0)
+        if (obj.IsHuman)
+        {
+            this.PlayerActionsLeft--;
+        }
+        else if(!obj.IsHuman)
+        {
+            this.AIActionsLeft--;
+        }
+
+        if (this.TotalActionsLeft == 0)
         {
             this.NewRound();
         }
+
+        GameManager.Instance.UpdateTurn();
     }
 
     private void NewRound()
     {
-        this.PieceActionsLeft = BoardManager.Instance.InitialPiecesCount; //TODO: handle dead here.
+        this.TotalActionsLeft = PlayerManager.Instance.Pieces.Count(p => !p.IsDead) + EnemyManager.Instance.Pieces.Count(p => !p.IsDead);
+        this.PlayerActionsLeft = PlayerManager.Instance.Pieces.Count(p => !p.IsDead);
+        this.AIActionsLeft = EnemyManager.Instance.Pieces.Count(p => !p.IsDead);
 
         // restore player movement and actions
         PlayerManager.Instance.RestoreWalkAndActions();

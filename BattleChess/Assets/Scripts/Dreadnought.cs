@@ -52,7 +52,7 @@ public class Dreadnought : EnemyPiece
             Coord newPosition = possibleDestinations[i];
             Vector3 targetPosition = BoardManager.Instance.GetTileCenter(newPosition.X, newPosition.Y);
 
-            float distance = this.GetDistanceBetweenPositions(this.sensor.ClosestHumanPiece.transform.position, targetPosition);
+            float distance = this.GetDistanceBetweenPositions(this.sensor.ClosestEnemyPiece.transform.position, targetPosition);
 
             if (distance < lowestDistance)
             {
