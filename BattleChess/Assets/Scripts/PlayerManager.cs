@@ -149,6 +149,13 @@ public class PlayerManager : PieceManager
             this.IsTurnComplete = true;
             GameManager.Instance.UpdateTurn();
         }
+        else
+        {
+            if (this.SelectedPiece == null)
+            {
+                this.SelectRandomPiece();
+            }
+        }
     }
 
     public void SelectRandomPiece()

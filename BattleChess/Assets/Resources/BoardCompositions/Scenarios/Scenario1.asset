@@ -15,11 +15,11 @@ MonoBehaviour:
   Description: Easy scenario to get used with the game.
   PreviewImage: {fileID: 21300000, guid: 7b0aad624f106504e8715834d2d3d4bb, type: 3}
   Entities:
-  - PieceType: 0
+  - PieceType: 2
     Faction: 0
     X: 0
     Y: 0
-  - PieceType: 1
+  - PieceType: 2
     Faction: 0
     X: 3
     Y: 0

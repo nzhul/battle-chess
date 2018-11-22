@@ -1,0 +1,73 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c5a7d0bd68e05eb428c713145c8398fc, type: 3}
+  m_Name: Scenario3
+  m_EditorClassIdentifier: 
+  Name: Hard
+  Description: Your tactical skills will be tested!
+  PreviewImage: {fileID: 21300000, guid: 7b0aad624f106504e8715834d2d3d4bb, type: 3}
+  Entities:
+  - PieceType: 0
+    Faction: 0
+    X: 2
+    Y: 1
+  - PieceType: 0
+    Faction: 0
+    X: 3
+    Y: 1
+  - PieceType: 0
+    Faction: 0
+    X: 4
+    Y: 1
+  - PieceType: 0
+    Faction: 0
+    X: 5
+    Y: 1
+  - PieceType: 2
+    Faction: 0
+    X: 4
+    Y: 0
+  - PieceType: 1
+    Faction: 0
+    X: 5
+    Y: 0
+  - PieceType: 1
+    Faction: 0
+    X: 3
+    Y: 0
+  - PieceType: 3
+    Faction: 1
+    X: 2
+    Y: 6
+  - PieceType: 3
+    Faction: 1
+    X: 3
+    Y: 6
+  - PieceType: 3
+    Faction: 1
+    X: 4
+    Y: 6
+  - PieceType: 3
+    Faction: 1
+    X: 5
+    Y: 6
+  - PieceType: 4
+    Faction: 1
+    X: 3
+    Y: 7
+  - PieceType: 4
+    Faction: 1
+    X: 5
+    Y: 7
+  - PieceType: 5
+    Faction: 1
+    X: 4
+    Y: 7

@@ -143,6 +143,12 @@ public class BoardManager : MonoBehaviour
 
     private Piece SpawnPiece(PieceType pieceType, int x, int y, Quaternion orientation)
     {
+        if (this.Pieces[x, y] != null)
+        {
+            Debug.LogWarning("{0}:{1} is already occpied! Invalid Composition!");
+            return null;
+        }
+
         int index = this.GetPieceIndex(pieceType);
         GameObject instance = Instantiate(piecePrefabs[index], this.GetTileCenter(x, y), orientation);
         instance.transform.SetParent(this.transform);
@@ -192,12 +198,18 @@ public class BoardManager : MonoBehaviour
             if (entity.Faction == Faction.Human)
             {
                 Piece spawnedPiece = SpawnPiece(entity.PieceType, entity.X, entity.Y, Quaternion.identity);
-                PlayerManager.Instance.Pieces.Add(spawnedPiece);
+                if (spawnedPiece != null)
+                {
+                    PlayerManager.Instance.Pieces.Add(spawnedPiece);
+                }
             }
             else
             {
                 Piece spawnedPiece = SpawnPiece(entity.PieceType, entity.X, entity.Y, faceCameraOrientation);
-                EnemyManager.Instance.Pieces.Add(spawnedPiece);
+                if (spawnedPiece != null)
+                {
+                    EnemyManager.Instance.Pieces.Add(spawnedPiece);
+                }
             }
         }
 
