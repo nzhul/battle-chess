@@ -430,13 +430,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Speed: 1
-  Hitpoints: 1
+  Hitpoints: 2
   AttackPower: 1
   ShootRange: 20
   DetectionMethod: 0
   AttackMethod: 0
   IsHuman: 0
   motor: {fileID: 0}
+  sensor: {fileID: 0}
   Initiative: 0
 --- !u!114 &114947349672062048
 MonoBehaviour:

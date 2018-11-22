@@ -165,12 +165,15 @@ public class BoardManager : MonoBehaviour
         // 5 CommandUnit
         // 6 Human Dreadnought
 
-        //// Spawn human force
-        PlayerManager.Instance.Pieces.Add(SpawnPiece(2, 4, 3, Quaternion.identity)); // Tank
-        PlayerManager.Instance.Pieces.Add(SpawnPiece(0, 3, 0, Quaternion.identity)); // Grunt
+        // Spawn human force
+        PlayerManager.Instance.Pieces.Add(SpawnPiece(0, 2, 1, Quaternion.identity)); // Grunt
+        PlayerManager.Instance.Pieces.Add(SpawnPiece(0, 3, 1, Quaternion.identity)); // Grunt
+        PlayerManager.Instance.Pieces.Add(SpawnPiece(0, 4, 1, Quaternion.identity)); // Grunt
+        PlayerManager.Instance.Pieces.Add(SpawnPiece(0, 5, 1, Quaternion.identity)); // Grunt
+        PlayerManager.Instance.Pieces.Add(SpawnPiece(2, 5, 0, Quaternion.identity)); // Tank
         PlayerManager.Instance.Pieces.Add(SpawnPiece(1, 4, 0, Quaternion.identity)); // Jumpship
 
-        //// Spawn AI force
+        // Spawn AI force
         EnemyManager.Instance.Pieces.Add(SpawnPiece(3, 2, 6, faceCameraOrientation)); // Drone
         EnemyManager.Instance.Pieces.Add(SpawnPiece(3, 5, 6, faceCameraOrientation)); // Drone
         EnemyManager.Instance.Pieces.Add(SpawnPiece(3, 3, 6, faceCameraOrientation)); // Drone
@@ -201,10 +204,42 @@ public class BoardManager : MonoBehaviour
         //EnemyManager.Instance.Pieces.Add(SpawnPiece(3, 4, 7, faceCameraOrientation)); // Drone
 
         //// Grunt shoot scenario
-        //PlayerManager.Instance.Pieces.Add(SpawnPiece(0, 4, 2, Quaternion.identity)); // Grunt
-        //PlayerManager.Instance.Pieces.Add(SpawnPiece(0, 5, 2, Quaternion.identity)); // Grunt
+        //PlayerManager.Instance.Pieces.Add(SpawnPiece(0, 3, 4, Quaternion.identity)); // Grunt
+        //EnemyManager.Instance.Pieces.Add(SpawnPiece(3, 0, 7, faceCameraOrientation)); // Drone
+        //EnemyManager.Instance.Pieces.Add(SpawnPiece(3, 6, 7, faceCameraOrientation)); // Drone
+        //EnemyManager.Instance.Pieces.Add(SpawnPiece(3, 0, 1, faceCameraOrientation)); // Drone
+        //EnemyManager.Instance.Pieces.Add(SpawnPiece(3, 7, 0, faceCameraOrientation)); // Drone
+
+        //// Jumpship shoot scenario
+        //PlayerManager.Instance.Pieces.Add(SpawnPiece(1, 3, 4, Quaternion.identity)); // Jumpship
+
         //EnemyManager.Instance.Pieces.Add(SpawnPiece(3, 2, 4, faceCameraOrientation)); // Drone
-        //EnemyManager.Instance.Pieces.Add(SpawnPiece(3, 4, 7, faceCameraOrientation)); // Drone
+        //EnemyManager.Instance.Pieces.Add(SpawnPiece(3, 4, 4, faceCameraOrientation)); // Drone
+        //EnemyManager.Instance.Pieces.Add(SpawnPiece(3, 3, 3, faceCameraOrientation)); // Drone
+        //EnemyManager.Instance.Pieces.Add(SpawnPiece(3, 3, 5, faceCameraOrientation)); // Drone
+
+        //EnemyManager.Instance.Pieces.Add(SpawnPiece(3, 2, 5, faceCameraOrientation)); // Drone
+        //EnemyManager.Instance.Pieces.Add(SpawnPiece(3, 4, 5, faceCameraOrientation)); // Drone
+        //EnemyManager.Instance.Pieces.Add(SpawnPiece(3, 4, 3, faceCameraOrientation)); // Drone
+        //EnemyManager.Instance.Pieces.Add(SpawnPiece(3, 2, 3, faceCameraOrientation)); // Drone
+
+        //// Dreadnought shoot scenario
+        //EnemyManager.Instance.Pieces.Add(SpawnPiece(4, 3, 4, faceCameraOrientation)); // Drone
+
+        //PlayerManager.Instance.Pieces.Add(SpawnPiece(2, 2, 4, faceCameraOrientation)); // Tank
+        //PlayerManager.Instance.Pieces.Add(SpawnPiece(2, 4, 4, faceCameraOrientation)); // Tank
+        //PlayerManager.Instance.Pieces.Add(SpawnPiece(2, 2, 3, faceCameraOrientation)); // Tank
+        //PlayerManager.Instance.Pieces.Add(SpawnPiece(2, 3, 5, faceCameraOrientation)); // Tank
+        //PlayerManager.Instance.Pieces.Add(SpawnPiece(2, 2, 5, faceCameraOrientation)); // Tank
+        //PlayerManager.Instance.Pieces.Add(SpawnPiece(2, 4, 5, faceCameraOrientation)); // Tank
+        //PlayerManager.Instance.Pieces.Add(SpawnPiece(2, 4, 3, faceCameraOrientation)); // Tank
+        //PlayerManager.Instance.Pieces.Add(SpawnPiece(2, 3, 3, faceCameraOrientation)); // Tank
+
+        //PlayerManager.Instance.Pieces.Add(SpawnPiece(2, 0, 0, faceCameraOrientation)); // Tank
+        //PlayerManager.Instance.Pieces.Add(SpawnPiece(2, 0, 7, faceCameraOrientation)); // Tank
+
+        //PlayerManager.Instance.Pieces.Add(SpawnPiece(2, 7, 6, faceCameraOrientation)); // Tank
+        //PlayerManager.Instance.Pieces.Add(SpawnPiece(2, 7, 1, faceCameraOrientation)); // Tank
 
 
         if (this.OnBoardInit != null)

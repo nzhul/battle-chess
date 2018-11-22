@@ -76,7 +76,7 @@ public class PlayerManager : PieceManager
             // a player is in targeting mode. He must select a target or press cancel/escape
 
             this.SelectedPiece.sensor.DetectPossibleAttackTargets();
-            this.SelectedPiece.Shoot();
+            this.SelectedPiece.Attack();
 
             this.SelectedPiece.ActionConsumed = true;
             this.SelectedPiece.WalkConsumed = true;

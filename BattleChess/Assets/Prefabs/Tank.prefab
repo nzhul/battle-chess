@@ -345,10 +345,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89b8592e17fc47746ab75dc944e1ddd0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Speed: 10
-  Hitpoints: 1
-  AttackPower: 1
-  ShootRange: 1
+  Speed: 3
+  Hitpoints: 4
+  AttackPower: 2
+  ShootRange: 10
   DetectionMethod: 1
   AttackMethod: 0
   IsHuman: 1

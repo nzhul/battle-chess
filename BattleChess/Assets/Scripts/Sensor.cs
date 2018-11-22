@@ -11,12 +11,10 @@ public class Sensor : MonoBehaviour
     public List<Piece> AttackTargets { get; set; }
 
     private Piece _piece;
-    private Type _pieceType;
 
     private void Awake()
     {
         this._piece = GetComponent<Piece>();
-        this._pieceType = this._piece.GetType();
     }
 
     public void DetectClosestTarget()
@@ -40,13 +38,8 @@ public class Sensor : MonoBehaviour
         // Debug.Log(_pieceType.Name + " closest target is " + this.ClosestHumanPiece.name);
     }
 
-    // We already moved towards human piece and no will attack, but first we need to detect all possible targets.
     public void DetectPossibleAttackTargets()
     {
-        //throw new NotImplementedException();
-
-        // switch _pieceType based on pieceType - do different kind of detection.
-
         this.AttackTargets = new List<Piece>();
 
         switch (_piece.DetectionMethod)
@@ -65,143 +58,244 @@ public class Sensor : MonoBehaviour
         }
     }
 
+    // AdjacentTargets are combination of Diagonal and Orthagonal + limiting the piece range to 1
     private List<Piece> FindAdjacentTargets()
     {
-        throw new NotImplementedException();
+        List<Piece> diagonalTargets = this.FindDiagonalTargets();
+        List<Piece> orthogonalTargets = this.FindOrthagonalTargets();
+        List<Piece> adjacentTargets = diagonalTargets.Concat(orthogonalTargets).ToList();
+
+        return adjacentTargets;
     }
 
     private List<Piece> FindOrthagonalTargets()
     {
-        throw new NotImplementedException();
+        List<Piece> targets = new List<Piece>();
+
+        Piece piece;
+        int i;
+        int maxI;
+
+        // Right
+        i = this._piece.CurrentX;
+        maxI = this._piece.CurrentX + this._piece.ShootRange;
+
+        while (true)
+        {
+            i++;
+            if (i > maxI || i >= 8)
+            {
+                break;
+            }
+
+            piece = BoardManager.Instance.Pieces[i, this._piece.CurrentY];
+            if (piece == null)
+            {
+                continue;
+            }
+            else
+            {
+                targets.Add(piece);
+                break;
+            }
+        }
+
+
+        // Left
+        i = this._piece.CurrentX;
+        maxI = this._piece.CurrentX - this._piece.ShootRange;
+
+        while (true)
+        {
+            i--;
+            if (i < maxI || i < 0)
+            {
+                break;
+            }
+
+            piece = BoardManager.Instance.Pieces[i, this._piece.CurrentY];
+            if (piece == null)
+            {
+                continue;
+            }
+            else
+            {
+                targets.Add(piece);
+                break;
+            }
+        }
+
+
+        // Up
+        i = this._piece.CurrentY;
+        maxI = this._piece.CurrentY + this._piece.ShootRange;
+
+        while (true)
+        {
+            i++;
+            if (i > maxI || i >= 8)
+            {
+                break;
+            }
+
+            piece = BoardManager.Instance.Pieces[this._piece.CurrentX, i];
+            if (piece == null)
+            {
+                continue;
+            }
+            else
+            {
+                targets.Add(piece);
+                break;
+            }
+        }
+
+
+        // Down
+        i = this._piece.CurrentY;
+        maxI = this._piece.CurrentY - this._piece.ShootRange;
+
+        while (true)
+        {
+            i--;
+            if (i < maxI || i < 0)
+            {
+                break;
+            }
+
+            piece = BoardManager.Instance.Pieces[this._piece.CurrentX, i];
+            if (piece == null)
+            {
+                continue;
+            }
+            else
+            {
+                targets.Add(piece);
+                break;
+            }
+        }
+
+        if (this._piece.IsHuman)
+        {
+            targets = targets.Where(t => !t.IsHuman).ToList();
+        }
+        else
+        {
+            targets = targets.Where(t => t.IsHuman).ToList();
+        }
+
+        return targets;
     }
 
     private List<Piece> FindDiagonalTargets()
     {
         List<Piece> targets = new List<Piece>();
 
-        Direction checkDirection = Direction.Up;
-        if (_pieceType == typeof(Drone))
-        {
-            checkDirection = Direction.Down;
-        }
-        else if (_pieceType == typeof(Grunt))
-        {
-            checkDirection = Direction.Up;
-        }
+        Piece piece;
+        int i, j;
+        int maxI;
 
-        if (checkDirection == Direction.Up)
+        // Top Left
+        i = this._piece.CurrentX;
+        j = this._piece.CurrentY;
+        maxI = this._piece.CurrentX - this._piece.ShootRange;
+
+        while (true)
         {
-            Piece piece;
-            int i, j;
-            int maxI;
-
-            // Top Left
-            i = this._piece.CurrentX;
-            j = this._piece.CurrentY;
-
-            while (true)
+            i--;
+            j++;
+            if (i < maxI || i < 0 || j >= 8)
             {
-                i--;
-                j++;
-                maxI = this._piece.CurrentX - this._piece.ShootRange;
-                if (i < maxI || i < 0 || j >= 8)
-                {
-                    break;
-                }
-
-                piece = BoardManager.Instance.Pieces[i, j];
-                if (piece == null)
-                {
-                    continue;
-                }
-                else
-                {
-                    targets.Add(piece);
-                    break;
-                }
+                break;
             }
 
-            // Top Right
-            i = this._piece.CurrentX;
-            j = this._piece.CurrentY;
-            maxI = this._piece.CurrentX + this._piece.ShootRange;
-            while (true)
+            piece = BoardManager.Instance.Pieces[i, j];
+            if (piece == null)
             {
-                i++;
-                j++;
-                if (i > maxI || i >= 8 || j >= 8)
-                {
-                    break;
-                }
-
-                piece = BoardManager.Instance.Pieces[i, j];
-                if (piece == null)
-                {
-                    continue;
-                }
-                else
-                {
-                    targets.Add(piece);
-                    break;
-                }
+                continue;
+            }
+            else
+            {
+                targets.Add(piece);
+                break;
             }
         }
-        else if (checkDirection == Direction.Down)
+
+        // Top Right
+        i = this._piece.CurrentX;
+        j = this._piece.CurrentY;
+        maxI = this._piece.CurrentX + this._piece.ShootRange;
+
+        while (true)
         {
-            Piece piece;
-            int i, j;
-            int maxI;
-
-            // Down Left
-            i = this._piece.CurrentX;
-            j = this._piece.CurrentY;
-            maxI = this._piece.CurrentX - this._piece.ShootRange;
-
-            while (true)
+            i++;
+            j++;
+            if (i > maxI || i >= 8 || j >= 8)
             {
-                i--;
-                j--;
-                if (i < maxI || i < 0 || j < 0)
-                {
-                    break;
-                }
-
-                piece = BoardManager.Instance.Pieces[i, j];
-                if (piece == null)
-                {
-                    continue;
-                }
-                else
-                {
-                    targets.Add(piece);
-                    break;
-                }
+                break;
             }
 
-            // Down Right
-            i = this._piece.CurrentX;
-            j = this._piece.CurrentY;
-            maxI = this._piece.CurrentX + this._piece.ShootRange;
-
-            while (true)
+            piece = BoardManager.Instance.Pieces[i, j];
+            if (piece == null)
             {
-                i++;
-                j--;
-                if (i > maxI || i >= 8 || j < 0)
-                {
-                    break;
-                }
+                continue;
+            }
+            else
+            {
+                targets.Add(piece);
+                break;
+            }
+        }
 
-                piece = BoardManager.Instance.Pieces[i, j];
-                if (piece == null)
-                {
-                    continue;
-                }
-                else
-                {
-                    targets.Add(piece);
-                    break;
-                }
+        // Down Left
+        i = this._piece.CurrentX;
+        j = this._piece.CurrentY;
+        maxI = this._piece.CurrentX - this._piece.ShootRange;
+
+        while (true)
+        {
+            i--;
+            j--;
+            if (i < maxI || i < 0 || j < 0)
+            {
+                break;
+            }
+
+            piece = BoardManager.Instance.Pieces[i, j];
+            if (piece == null)
+            {
+                continue;
+            }
+            else
+            {
+                targets.Add(piece);
+                break;
+            }
+        }
+
+        // Down Right
+        i = this._piece.CurrentX;
+        j = this._piece.CurrentY;
+        maxI = this._piece.CurrentX + this._piece.ShootRange;
+
+        while (true)
+        {
+            i++;
+            j--;
+            if (i > maxI || i >= 8 || j < 0)
+            {
+                break;
+            }
+
+            piece = BoardManager.Instance.Pieces[i, j];
+            if (piece == null)
+            {
+                continue;
+            }
+            else
+            {
+                targets.Add(piece);
+                break;
             }
         }
 

@@ -12,6 +12,9 @@ public abstract class Piece : MonoBehaviour, IDamageable
     [Tooltip("If it reach 0, the piece is destroyed.")]
     public int Hitpoints = 1;
 
+    [ReadOnly]
+    public int CurrentHitpoints;
+
     public int AttackPower = 1;
 
     public int ShootRange = 1;
@@ -25,8 +28,6 @@ public abstract class Piece : MonoBehaviour, IDamageable
     public int CurrentY { get; set; }
 
     public bool IsHuman;
-
-    public int CurrentHitpoints { get; set; }
 
     public bool WalkConsumed { get; set; }
 
@@ -100,12 +101,12 @@ public abstract class Piece : MonoBehaviour, IDamageable
         this.ActionConsumed = true;
     }
 
-    public virtual void Shoot()
+    public virtual void Attack()
     {
-        StartCoroutine(ShootRoutine());
+        StartCoroutine(AttackRoutine());
     }
 
-    IEnumerator ShootRoutine()
+    IEnumerator AttackRoutine()
     {
         // wait the piece to stop moving
         while (motor.isMoving)
@@ -122,8 +123,16 @@ public abstract class Piece : MonoBehaviour, IDamageable
 
         if (this.sensor.AttackTargets != null && this.sensor.AttackTargets.Count > 0)
         {
-            foreach (var target in this.sensor.AttackTargets)
+            if (this.AttackMethod == AttackMethod.All)
             {
+                foreach (var target in this.sensor.AttackTargets)
+                {
+                    target.TakeHit(this.AttackPower, Vector3.one);
+                }
+            }
+            else if (this.AttackMethod == AttackMethod.Single)
+            {
+                Piece target = this.sensor.AttackTargets[UnityEngine.Random.Range(0, this.sensor.AttackTargets.Count)];
                 target.TakeHit(this.AttackPower, Vector3.one);
             }
         }
@@ -145,7 +154,8 @@ public abstract class Piece : MonoBehaviour, IDamageable
     public void TakeDamage(int damage)
     {
         this.CurrentHitpoints -= damage;
-        Debug.Log(string.Format("{0} took {1} damage. HP: {2}/{3}", this.PieceType.Name, damage, this.CurrentHitpoints, this.Hitpoints));
+        Debug.Log(string.Format("{0} at {1}:{2} took {3} damage. HP: {4}/{5}",
+            this.PieceType.Name, this.CurrentX, this.CurrentY, damage, this.CurrentHitpoints, this.Hitpoints));
         if (this.CurrentHitpoints <= 0 && !IsDead)
         {
             Die();

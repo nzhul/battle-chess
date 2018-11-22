@@ -16,7 +16,7 @@
         this.sensor.DetectClosestTarget();
         this.TryMove();
         base.sensor.DetectPossibleAttackTargets();
-        this.Shoot();
+        this.Attack();
     }
 
     protected override Coord TryFindDestination()

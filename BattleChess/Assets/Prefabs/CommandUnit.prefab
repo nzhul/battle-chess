@@ -491,14 +491,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ca95648e961dc34b95c99b4a3742e97, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Speed: 10
-  Hitpoints: 1
+  Speed: 1
+  Hitpoints: 5
   AttackPower: 1
   ShootRange: 1
   DetectionMethod: 0
   AttackMethod: 0
   IsHuman: 0
   motor: {fileID: 0}
+  sensor: {fileID: 0}
   Initiative: 2
 --- !u!114 &114701435908617816
 MonoBehaviour:
