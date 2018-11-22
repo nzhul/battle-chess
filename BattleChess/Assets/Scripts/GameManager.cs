@@ -74,12 +74,12 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator RunGameLoop()
     {
-        yield return StartCoroutine(StartLevelRoutine());
-        yield return StartCoroutine(PlayLevelRoutine());
-        yield return StartCoroutine(EndLevelRoutine());
+        yield return StartCoroutine(StartGameRoutine());
+        yield return StartCoroutine(PlayGameRoutine());
+        yield return StartCoroutine(EndGameRoutine());
     }
 
-    IEnumerator StartLevelRoutine()
+    IEnumerator StartGameRoutine()
     {
         if (setupEvent != null)
         {
@@ -101,7 +101,7 @@ public class GameManager : MonoBehaviour
     }
 
 
-    IEnumerator PlayLevelRoutine()
+    IEnumerator PlayGameRoutine()
     {
         _isGamePlaying = true;
         yield return new WaitForSeconds(delay);
@@ -127,7 +127,7 @@ public class GameManager : MonoBehaviour
         return false;
     }
 
-    IEnumerator EndLevelRoutine()
+    IEnumerator EndGameRoutine()
     {
         Debug.Log("END LEVEL");
         PlayerManager.Instance.InputEnabled = false;

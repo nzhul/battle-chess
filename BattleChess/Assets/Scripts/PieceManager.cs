@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PieceManager : MonoBehaviour
 {
+    //TODO: this can be made as a property {get;set;}
     public List<Piece> Pieces;
 
     public void RestoreWalkAndActions()

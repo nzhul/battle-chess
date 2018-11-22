@@ -52,6 +52,8 @@ public class BoardManager : MonoBehaviour
 
     public int InitialPiecesCount { get; set; }
 
+    public BoardComposition CurrentScenario { get; set; }
+
     private void Update()
     {
         UpdateSelection();
@@ -139,8 +141,9 @@ public class BoardManager : MonoBehaviour
         }
     }
 
-    private Piece SpawnPiece(int index, int x, int y, Quaternion orientation)
+    private Piece SpawnPiece(PieceType pieceType, int x, int y, Quaternion orientation)
     {
+        int index = this.GetPieceIndex(pieceType);
         GameObject instance = Instantiate(piecePrefabs[index], this.GetTileCenter(x, y), orientation);
         instance.transform.SetParent(this.transform);
         this.Pieces[x, y] = instance.GetComponent<Piece>();
@@ -150,6 +153,23 @@ public class BoardManager : MonoBehaviour
 
         return instance.GetComponent<Piece>();
     }
+
+    private int GetPieceIndex(PieceType pieceType)
+    {
+        return (int)pieceType;
+    }
+
+    //private Piece SpawnPiece(int index, int x, int y, Quaternion orientation)
+    //{
+    //    GameObject instance = Instantiate(piecePrefabs[index], this.GetTileCenter(x, y), orientation);
+    //    instance.transform.SetParent(this.transform);
+    //    this.Pieces[x, y] = instance.GetComponent<Piece>();
+    //    this.Pieces[x, y].SetPosition(x, y);
+    //    this.activePieces.Add(instance);
+    //    this.InitialPiecesCount++;
+
+    //    return instance.GetComponent<Piece>();
+    //}
 
     // TODO: change this hardcoded configuration by using some kind of battle configuration. Scriptable objects ?
     public void InitBoard()
@@ -165,20 +185,36 @@ public class BoardManager : MonoBehaviour
         // 5 CommandUnit
         // 6 Human Dreadnought
 
-        // Spawn human force
-        PlayerManager.Instance.Pieces.Add(SpawnPiece(0, 2, 1, Quaternion.identity)); // Grunt
-        PlayerManager.Instance.Pieces.Add(SpawnPiece(0, 3, 1, Quaternion.identity)); // Grunt
-        PlayerManager.Instance.Pieces.Add(SpawnPiece(0, 4, 1, Quaternion.identity)); // Grunt
-        PlayerManager.Instance.Pieces.Add(SpawnPiece(0, 5, 1, Quaternion.identity)); // Grunt
-        PlayerManager.Instance.Pieces.Add(SpawnPiece(2, 5, 0, Quaternion.identity)); // Tank
-        PlayerManager.Instance.Pieces.Add(SpawnPiece(1, 4, 0, Quaternion.identity)); // Jumpship
+        foreach (var entity in this.CurrentScenario.Entities)
+        {
 
-        // Spawn AI force
-        EnemyManager.Instance.Pieces.Add(SpawnPiece(3, 2, 6, faceCameraOrientation)); // Drone
-        EnemyManager.Instance.Pieces.Add(SpawnPiece(3, 5, 6, faceCameraOrientation)); // Drone
-        EnemyManager.Instance.Pieces.Add(SpawnPiece(3, 3, 6, faceCameraOrientation)); // Drone
-        EnemyManager.Instance.Pieces.Add(SpawnPiece(4, 1, 7, faceCameraOrientation)); // Dreadnought
-        EnemyManager.Instance.Pieces.Add(SpawnPiece(5, 3, 7, faceCameraOrientation)); // CommandUnit
+
+            if (entity.Faction == Faction.Human)
+            {
+                Piece spawnedPiece = SpawnPiece(entity.PieceType, entity.X, entity.Y, Quaternion.identity);
+                PlayerManager.Instance.Pieces.Add(spawnedPiece);
+            }
+            else
+            {
+                Piece spawnedPiece = SpawnPiece(entity.PieceType, entity.X, entity.Y, faceCameraOrientation);
+                EnemyManager.Instance.Pieces.Add(spawnedPiece);
+            }
+        }
+
+        //// Spawn human force
+        //PlayerManager.Instance.Pieces.Add(SpawnPiece(0, 2, 1, Quaternion.identity)); // Grunt
+        //PlayerManager.Instance.Pieces.Add(SpawnPiece(0, 3, 1, Quaternion.identity)); // Grunt
+        //PlayerManager.Instance.Pieces.Add(SpawnPiece(0, 4, 1, Quaternion.identity)); // Grunt
+        //PlayerManager.Instance.Pieces.Add(SpawnPiece(0, 5, 1, Quaternion.identity)); // Grunt
+        //PlayerManager.Instance.Pieces.Add(SpawnPiece(2, 5, 0, Quaternion.identity)); // Tank
+        //PlayerManager.Instance.Pieces.Add(SpawnPiece(1, 4, 0, Quaternion.identity)); // Jumpship
+
+        //// Spawn AI force
+        //EnemyManager.Instance.Pieces.Add(SpawnPiece(3, 2, 6, faceCameraOrientation)); // Drone
+        //EnemyManager.Instance.Pieces.Add(SpawnPiece(3, 5, 6, faceCameraOrientation)); // Drone
+        //EnemyManager.Instance.Pieces.Add(SpawnPiece(3, 3, 6, faceCameraOrientation)); // Drone
+        //EnemyManager.Instance.Pieces.Add(SpawnPiece(4, 1, 7, faceCameraOrientation)); // Dreadnought
+        //EnemyManager.Instance.Pieces.Add(SpawnPiece(5, 3, 7, faceCameraOrientation)); // CommandUnit
 
         // tanks in enemy line
         //PlayerManager.Instance.Pieces.Add(SpawnPiece(0, 1, 1, Quaternion.identity));
