@@ -62,6 +62,21 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &1487340197686044
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4146720094404650}
+  m_Layer: 0
+  m_Name: HealthBar target
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &1506466892684424
 GameObject:
   m_ObjectHideFlags: 0
@@ -124,6 +139,7 @@ GameObject:
   - component: {fileID: 114205301601658586}
   - component: {fileID: 114100746096180514}
   - component: {fileID: 114630635123603234}
+  - component: {fileID: 114536692944973818}
   m_Layer: 0
   m_Name: Dreadnought
   m_TagString: Untagged
@@ -142,7 +158,20 @@ Transform:
   m_LocalScale: {x: 0.574354, y: 0.33101, z: 0.81304425}
   m_Children: []
   m_Father: {fileID: 4251076027483966}
-  m_RootOrder: 1
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4146720094404650
+Transform:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1487340197686044}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.991, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4251076027483966}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4151333858834432
 Transform:
@@ -155,7 +184,7 @@ Transform:
   m_LocalScale: {x: 0.18812954, y: 0.15273464, z: 0.81304425}
   m_Children: []
   m_Father: {fileID: 4251076027483966}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4210984035466264
 Transform:
@@ -168,7 +197,7 @@ Transform:
   m_LocalScale: {x: 0.24047615, y: 0.13104355, z: 0.41537616}
   m_Children: []
   m_Father: {fileID: 4251076027483966}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4251076027483966
 Transform:
@@ -180,6 +209,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
+  - {fileID: 4146720094404650}
   - {fileID: 4313917865200966}
   - {fileID: 4070053813406204}
   - {fileID: 4354655100688866}
@@ -200,7 +230,7 @@ Transform:
   m_LocalScale: {x: 0.47418872, y: 0.33101285, z: 0.8130418}
   m_Children: []
   m_Father: {fileID: 4251076027483966}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4354655100688866
 Transform:
@@ -213,7 +243,7 @@ Transform:
   m_LocalScale: {x: 0.32201743, y: 0.23356728, z: 0.81304425}
   m_Children: []
   m_Father: {fileID: 4251076027483966}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4880669147305028
 Transform:
@@ -226,7 +256,7 @@ Transform:
   m_LocalScale: {x: 0.1881306, y: 0.1527307, z: 0.81304425}
   m_Children: []
   m_Father: {fileID: 4251076027483966}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!23 &23265175316671426
 MeshRenderer:
@@ -493,6 +523,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Speed: 1
   Hitpoints: 5
+  _currentHitpoints: 0
   AttackPower: 2
   ShootRange: 1
   DetectionMethod: 2
@@ -519,6 +550,19 @@ MonoBehaviour:
   moveSpeed: 1.5
   rotateTime: 0.5
   iTweenDelay: 0
+--- !u!114 &114536692944973818
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1837963011913540}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0814c09e16d715b468e9b8ee1edc5907, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  uiPrefab: {fileID: 1664736419678294, guid: adc8d742ef915f240ae149f99e4012f7, type: 2}
+  target: {fileID: 4146720094404650}
 --- !u!114 &114630635123603234
 MonoBehaviour:
   m_ObjectHideFlags: 1

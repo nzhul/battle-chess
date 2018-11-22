@@ -13,7 +13,23 @@ public abstract class Piece : MonoBehaviour, IDamageable
     public int Hitpoints = 1;
 
     [ReadOnly]
-    public int CurrentHitpoints;
+    public int _currentHitpoints;
+
+    public int CurrentHitpoints
+    {
+        get
+        {
+            return this._currentHitpoints;
+        }
+        set
+        {
+            this._currentHitpoints = value;
+            if (this.OnHealthChange != null)
+            {
+                this.OnHealthChange(this);
+            }
+        }
+    }
 
     public int AttackPower = 1;
 
@@ -44,6 +60,8 @@ public abstract class Piece : MonoBehaviour, IDamageable
     public event Action<Piece> OnDeath;
 
     public event Action<Piece> OnAttackComplete;
+
+    public event Action<Piece> OnHealthChange;
 
     [HideInInspector]
     public PieceMotor motor;
@@ -204,5 +222,20 @@ public abstract class Piece : MonoBehaviour, IDamageable
 
         ////TODO: wait for death animation to complete.
         gameObject.SetActive(false);
+        Destroy(gameObject);
+    }
+
+    private void OnDestroy()
+    {
+        var listeners = this.OnTurnCompleted.GetInvocationList();
+        foreach (var item in listeners)
+        {
+            this.OnTurnCompleted -= (item as Action<Piece>);
+        }
+
+        // TODO: unsubscribe all other events. 
+        // OnTurnCompleted;
+        // OnDeath;
+        // OnAttackComplete;
     }
 }

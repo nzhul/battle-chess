@@ -11,6 +11,21 @@ Prefab:
   m_SourcePrefab: {fileID: 0}
   m_RootGameObject: {fileID: 1287735972387818}
   m_IsPrefabAsset: 1
+--- !u!1 &1076556616739068
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4825848830623460}
+  m_Layer: 0
+  m_Name: HealthBar target
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &1160317387123502
 GameObject:
   m_ObjectHideFlags: 0
@@ -56,6 +71,7 @@ GameObject:
   - component: {fileID: 114701435908617816}
   - component: {fileID: 114349502201771468}
   - component: {fileID: 114745992593196064}
+  - component: {fileID: 114168578719269294}
   m_Layer: 0
   m_Name: CommandUnit
   m_TagString: Untagged
@@ -142,7 +158,7 @@ Transform:
   m_LocalScale: {x: 0.40192, y: 0.40192, z: 0.40192}
   m_Children: []
   m_Father: {fileID: 4932253477025790}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4235920775189466
 Transform:
@@ -155,7 +171,7 @@ Transform:
   m_LocalScale: {x: 0.209505, y: 1.0091, z: 0.199915}
   m_Children: []
   m_Father: {fileID: 4932253477025790}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4412297891962064
 Transform:
@@ -168,7 +184,7 @@ Transform:
   m_LocalScale: {x: 0.18085, y: 0.41248, z: 0.10956}
   m_Children: []
   m_Father: {fileID: 4932253477025790}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 42.796, z: 0}
 --- !u!4 &4537460138921452
 Transform:
@@ -181,7 +197,7 @@ Transform:
   m_LocalScale: {x: 0.18085001, y: 0.41248, z: 0.10956}
   m_Children: []
   m_Father: {fileID: 4932253477025790}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: -34.374, z: 0}
 --- !u!4 &4561836265875734
 Transform:
@@ -194,8 +210,21 @@ Transform:
   m_LocalScale: {x: 0.18085, y: 0.41248, z: 0.10956}
   m_Children: []
   m_Father: {fileID: 4932253477025790}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 35.353, z: 0}
+--- !u!4 &4825848830623460
+Transform:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1076556616739068}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 1.42, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4932253477025790}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4864503773025114
 Transform:
   m_ObjectHideFlags: 1
@@ -207,7 +236,7 @@ Transform:
   m_LocalScale: {x: 0.1808458, y: 0.412475, z: 0.10956368}
   m_Children: []
   m_Father: {fileID: 4932253477025790}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: -41.545002, z: 0}
 --- !u!4 &4932253477025790
 Transform:
@@ -219,6 +248,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
+  - {fileID: 4825848830623460}
   - {fileID: 4235920775189466}
   - {fileID: 4218520536841222}
   - {fileID: 4864503773025114}
@@ -480,6 +510,19 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1240124206531916}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &114168578719269294
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1287735972387818}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0814c09e16d715b468e9b8ee1edc5907, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  uiPrefab: {fileID: 1664736419678294, guid: adc8d742ef915f240ae149f99e4012f7, type: 2}
+  target: {fileID: 4825848830623460}
 --- !u!114 &114349502201771468
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -493,6 +536,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Speed: 1
   Hitpoints: 5
+  _currentHitpoints: 0
   AttackPower: 1
   ShootRange: 1
   DetectionMethod: 0

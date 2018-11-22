@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class PlayerManager : PieceManager
@@ -45,13 +46,30 @@ public class PlayerManager : PieceManager
                 {
                     BoardManager.Instance.Pieces[x, y].motor.OnMovementComplete += Motor_OnMovementComplete;
                 }
+
+                if (p != null && !p.IsHuman)
+                {
+                    BoardManager.Instance.Pieces[x, y].OnTurnCompleted += PlayerManager_OnTurnCompleted;
+                }
             }
+        }
+    }
+
+    private void PlayerManager_OnTurnCompleted(Piece obj)
+    {
+        if (!obj.IsHuman)
+        {
+            this.SelectRandomPiece();
         }
     }
 
     private void Motor_OnMovementComplete(Piece obj)
     {
-        BoardManager.Instance.SelectPiece(obj.CurrentX, obj.CurrentY);
+        if (obj.IsHuman)
+        {
+            BoardManager.Instance.SelectPiece(obj.CurrentX, obj.CurrentY);
+        }
+
     }
 
     bool _inputEnabled = false;
@@ -85,7 +103,6 @@ public class PlayerManager : PieceManager
             BoardHighlights.Instance.HideHighlights();
             this.IsTurnComplete = true;
             this.SelectedPiece.InvokeOnTurnComplete();
-            this.SelectedPiece = null;
         }
         else
         {
@@ -110,7 +127,6 @@ public class PlayerManager : PieceManager
             BoardHighlights.Instance.HideHighlights();
             this.IsTurnComplete = true;
             this.SelectedPiece.InvokeOnTurnComplete();
-            this.SelectedPiece = null;
         }
         else
         {
@@ -132,6 +148,20 @@ public class PlayerManager : PieceManager
             this.InputEnabled = false;
             this.IsTurnComplete = true;
             GameManager.Instance.UpdateTurn();
+        }
+    }
+
+    public void SelectRandomPiece()
+    {
+        if (this.Pieces != null && this.Pieces.Count > 0)
+        {
+            PlayerManager.Instance.SelectedPiece = null;
+            List<Piece> remainingPiecesToAct = this.Pieces.Where(p => !p.ActionConsumed).ToList();
+            if (remainingPiecesToAct != null && remainingPiecesToAct.Count > 0)
+            {
+                Piece randomPiece = remainingPiecesToAct[UnityEngine.Random.Range(0, remainingPiecesToAct.Count)];
+                BoardManager.Instance.SelectPiece(randomPiece.CurrentX, randomPiece.CurrentY);
+            }
         }
     }
 }

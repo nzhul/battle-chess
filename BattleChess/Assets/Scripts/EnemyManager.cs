@@ -89,6 +89,7 @@ public class EnemyManager : PieceManager
         {
             Debug.Log("Cannot find enemy to play! Skipping AI Round!");
             this.CompleteEnemiesTurn();
+            PlayerManager.Instance.SelectRandomPiece();
             GameManager.Instance.UpdateTurn();
         }
     }
