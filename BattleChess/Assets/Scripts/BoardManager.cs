@@ -50,13 +50,15 @@ public class BoardManager : MonoBehaviour
 
     public BoardComposition CurrentScenario { get; set; }
 
+    public PieceInfoPanel infoPanel;
+
     private void Update()
     {
         UpdateSelection();
 
-        #if UNITY_EDITOR
-            DrawDebugBoard();
-        #endif
+#if UNITY_EDITOR
+        DrawDebugBoard();
+#endif
 
         if (Input.GetMouseButtonDown(0) && PlayerManager.Instance.InputEnabled && !EventSystem.current.IsPointerOverGameObject())
         {
@@ -79,6 +81,23 @@ public class BoardManager : MonoBehaviour
                     }
                 }
             }
+        }
+
+        if (Input.GetMouseButtonDown(1) && GameManager.Instance.HasLevelStarted)
+        {
+            if (this.selectionX >= 0 && this.selectionY >= 0)
+            {
+                Piece piece = this.Pieces[this.selectionX, this.selectionY];
+                if (piece != null)
+                {
+                    infoPanel.ShowPanel(piece);
+                }
+            }
+        }
+
+        if (Input.GetMouseButtonUp(1) && GameManager.Instance.HasLevelStarted)
+        {
+            infoPanel.HidePanel();
         }
     }
 
