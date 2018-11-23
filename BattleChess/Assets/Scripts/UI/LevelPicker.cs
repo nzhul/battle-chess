@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.UI;
 
 public class LevelPicker : MonoBehaviour
@@ -6,8 +7,10 @@ public class LevelPicker : MonoBehaviour
     private BoardComposition[] _regularScenarios;
     private BoardComposition[] _testScenarios;
 
+    public RectTransform regularScenariosBackground;
     public RectTransform regularScenariosContainer;
     public RectTransform testScenariosContainer;
+    public RectTransform testScenariosBackground;
     public Button scenarioBtnPrefab;
 
     private void Awake()
@@ -26,6 +29,7 @@ public class LevelPicker : MonoBehaviour
         Common.Empty(regularScenariosContainer.transform);
         if (this._regularScenarios != null && this._regularScenarios.Length > 0)
         {
+            this.ExtendContainer(regularScenariosBackground, _regularScenarios.Length);
             foreach (var scenario in this._regularScenarios)
             {
                 this.AppendScenario(scenario, regularScenariosContainer);
@@ -39,6 +43,7 @@ public class LevelPicker : MonoBehaviour
         Common.Empty(testScenariosContainer.transform);
         if (this._testScenarios != null && this._testScenarios.Length > 0)
         {
+            this.ExtendContainer(testScenariosBackground, _testScenarios.Length);
             foreach (var scenario in this._testScenarios)
             {
                 this.AppendScenario(scenario, testScenariosContainer);
@@ -48,6 +53,11 @@ public class LevelPicker : MonoBehaviour
         {
             Debug.LogWarning("Cannot load regular scenarios!");
         }
+    }
+
+    private void ExtendContainer(RectTransform container, int length)
+    {
+        container.sizeDelta = new Vector2(222.5f * length, 250);
     }
 
     private void AppendScenario(BoardComposition scenario, RectTransform container)
