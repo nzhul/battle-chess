@@ -65,6 +65,8 @@ public abstract class Piece : MonoBehaviour, IDamageable
 
     public GameObject deathEffect;
 
+    public ParticleSystem shootEffect;
+
     public Piece Target;
 
     [HideInInspector]
@@ -146,7 +148,16 @@ public abstract class Piece : MonoBehaviour, IDamageable
                 yield return null;
             }
 
-            yield return new WaitForSeconds(.35f);
+            if (shootEffect != null)
+            {
+                shootEffect.Play();
+            }
+
+            // TODO: Increase this delay based on the distance to the face target.
+            // Shorter distance -> shorter delay.
+            // Longer distance -> longer delay.
+            // This delay is used to wait for the shoot animation to complete!
+            yield return new WaitForSeconds(.45f);
 
             if (this.AttackMethod == AttackMethod.All)
             {

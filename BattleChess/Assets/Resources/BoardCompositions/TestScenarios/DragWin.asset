@@ -11,15 +11,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c5a7d0bd68e05eb428c713145c8398fc, type: 3}
   m_Name: DragWin
   m_EditorClassIdentifier: 
-  Name: Dread Win
-  Description: Test scenario where AI easily wins
+  Name: Dread vs Tank
+  Description: 
   PreviewImage: {fileID: 0}
   Entities:
-  - PiecePrefab: {fileID: 114903039538165618, guid: 83b3237dac415b145b998d5fe742b8a5,
+  - PiecePrefab: {fileID: 114131012892040652, guid: a07edc01969f7fd45bfb716368884a8c,
       type: 2}
     X: 4
-    Y: 2
+    Y: 0
   - PiecePrefab: {fileID: 114100746096180514, guid: d1caceb156cb7314aaec1b37835783ec,
       type: 2}
     X: 4
-    Y: 4
+    Y: 5

@@ -140,6 +140,7 @@ GameObject:
   - component: {fileID: 114100746096180514}
   - component: {fileID: 114630635123603234}
   - component: {fileID: 114536692944973818}
+  - component: {fileID: 136013670279473312}
   m_Layer: 0
   m_Name: Dreadnought
   m_TagString: Untagged
@@ -531,6 +532,7 @@ MonoBehaviour:
   IsHuman: 0
   deathEffect: {fileID: 1019248618539596, guid: 4df2b569d021c3944bf30ef19abc63be,
     type: 2}
+  shootEffect: {fileID: 0}
   Target: {fileID: 0}
   motor: {fileID: 0}
   sensor: {fileID: 0}
@@ -578,3 +580,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 11e494c4c168b6a408c492cde83b2c88, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!136 &136013670279473312
+CapsuleCollider:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1837963011913540}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.5
+  m_Height: 1.4197881
+  m_Direction: 2
+  m_Center: {x: 0, y: 0.41999996, z: -0.28010595}
