@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -39,9 +38,6 @@ public class BoardManager : MonoBehaviour
     private int selectionX = -1; // TODO: use Coord struct instead.
     private int selectionY = -1;
 
-    public List<GameObject> piecePrefabs;
-    private List<GameObject> activePieces;
-
     private Quaternion faceCameraOrientation = Quaternion.Euler(0, 180, 0);
 
     public bool IsHumanTurn = true;
@@ -57,7 +53,10 @@ public class BoardManager : MonoBehaviour
     private void Update()
     {
         UpdateSelection();
-        DrawBoard();
+
+        #if UNITY_EDITOR
+            DrawDebugBoard();
+        #endif
 
         if (Input.GetMouseButtonDown(0) && PlayerManager.Instance.InputEnabled && !EventSystem.current.IsPointerOverGameObject())
         {
@@ -141,7 +140,7 @@ public class BoardManager : MonoBehaviour
         }
     }
 
-    private Piece SpawnPiece(PieceType pieceType, int x, int y, Quaternion orientation)
+    private Piece SpawnPiece(GameObject prefab, int x, int y, Quaternion orientation)
     {
         if (this.Pieces[x, y] != null)
         {
@@ -149,63 +148,33 @@ public class BoardManager : MonoBehaviour
             return null;
         }
 
-        int index = this.GetPieceIndex(pieceType);
-        GameObject instance = Instantiate(piecePrefabs[index], this.GetTileCenter(x, y), orientation);
+        GameObject instance = Instantiate(prefab, this.GetTileCenter(x, y), orientation);
         instance.transform.SetParent(this.transform);
         this.Pieces[x, y] = instance.GetComponent<Piece>();
         this.Pieces[x, y].SetPosition(x, y);
-        this.activePieces.Add(instance);
         this.InitialPiecesCount++;
 
         return instance.GetComponent<Piece>();
     }
 
-    private int GetPieceIndex(PieceType pieceType)
-    {
-        return (int)pieceType;
-    }
-
-    //private Piece SpawnPiece(int index, int x, int y, Quaternion orientation)
-    //{
-    //    GameObject instance = Instantiate(piecePrefabs[index], this.GetTileCenter(x, y), orientation);
-    //    instance.transform.SetParent(this.transform);
-    //    this.Pieces[x, y] = instance.GetComponent<Piece>();
-    //    this.Pieces[x, y].SetPosition(x, y);
-    //    this.activePieces.Add(instance);
-    //    this.InitialPiecesCount++;
-
-    //    return instance.GetComponent<Piece>();
-    //}
-
-    // TODO: change this hardcoded configuration by using some kind of battle configuration. Scriptable objects ?
     public void InitBoard()
     {
-        this.activePieces = new List<GameObject>();
         this.Pieces = new Piece[8, 8];
-
-        // 0 Grunt
-        // 1 JumpShip
-        // 2 Tank
-        // 3 Drone
-        // 4 Dreadnought
-        // 5 CommandUnit
-        // 6 Human Dreadnought
 
         foreach (var entity in this.CurrentScenario.Entities)
         {
-
-
-            if (entity.Faction == Faction.Human)
+            if (entity.PiecePrefab.IsHuman)
             {
-                Piece spawnedPiece = SpawnPiece(entity.PieceType, entity.X, entity.Y, Quaternion.identity);
+                Piece spawnedPiece = SpawnPiece(entity.PiecePrefab.gameObject, entity.X, entity.Y, Quaternion.identity);
                 if (spawnedPiece != null)
                 {
                     PlayerManager.Instance.Pieces.Add(spawnedPiece);
                 }
             }
-            else
+
+            if (!entity.PiecePrefab.IsHuman)
             {
-                Piece spawnedPiece = SpawnPiece(entity.PieceType, entity.X, entity.Y, faceCameraOrientation);
+                Piece spawnedPiece = SpawnPiece(entity.PiecePrefab.gameObject, entity.X, entity.Y, faceCameraOrientation);
                 if (spawnedPiece != null)
                 {
                     EnemyManager.Instance.Pieces.Add(spawnedPiece);
@@ -213,31 +182,9 @@ public class BoardManager : MonoBehaviour
             }
         }
 
-        //// Spawn human force
-        //PlayerManager.Instance.Pieces.Add(SpawnPiece(0, 2, 1, Quaternion.identity)); // Grunt
-        //PlayerManager.Instance.Pieces.Add(SpawnPiece(0, 3, 1, Quaternion.identity)); // Grunt
-        //PlayerManager.Instance.Pieces.Add(SpawnPiece(0, 4, 1, Quaternion.identity)); // Grunt
-        //PlayerManager.Instance.Pieces.Add(SpawnPiece(0, 5, 1, Quaternion.identity)); // Grunt
-        //PlayerManager.Instance.Pieces.Add(SpawnPiece(2, 5, 0, Quaternion.identity)); // Tank
-        //PlayerManager.Instance.Pieces.Add(SpawnPiece(1, 4, 0, Quaternion.identity)); // Jumpship
-
-        //// Spawn AI force
-        //EnemyManager.Instance.Pieces.Add(SpawnPiece(3, 2, 6, faceCameraOrientation)); // Drone
-        //EnemyManager.Instance.Pieces.Add(SpawnPiece(3, 5, 6, faceCameraOrientation)); // Drone
-        //EnemyManager.Instance.Pieces.Add(SpawnPiece(3, 3, 6, faceCameraOrientation)); // Drone
-        //EnemyManager.Instance.Pieces.Add(SpawnPiece(4, 1, 7, faceCameraOrientation)); // Dreadnought
-        //EnemyManager.Instance.Pieces.Add(SpawnPiece(5, 3, 7, faceCameraOrientation)); // CommandUnit
-
         // tanks in enemy line
         //PlayerManager.Instance.Pieces.Add(SpawnPiece(0, 1, 1, Quaternion.identity));
         //PlayerManager.Instance.Pieces.Add(SpawnPiece(2, 7, 1, Quaternion.identity));
-
-        // Drone at human start
-        //EnemyManager.Instance.Pieces.Add(SpawnPiece(3, 0, 0, faceCameraOrientation));
-
-
-        // Dreadnought Scenario
-        // EnemyManager.Instance.Pieces.Add(SpawnPiece(4, 3, 7, faceCameraOrientation)); // Dreadnought
 
 
         //// CommandUnit scenario
@@ -305,7 +252,7 @@ public class BoardManager : MonoBehaviour
         return origin;
     }
 
-    private void DrawBoard()
+    private void DrawDebugBoard()
     {
         Vector3 widthLine = Vector3.right * 8;
         Vector3 heightLine = Vector3.forward * 8;
@@ -321,7 +268,6 @@ public class BoardManager : MonoBehaviour
             }
         }
 
-        // Draw the selection
         if (selectionX >= 0 && selectionY >= 0)
         {
             Debug.DrawLine(Vector3.forward * selectionY + Vector3.right * selectionX, Vector3.forward * (selectionY + 1) + Vector3.right * (selectionX + 1));

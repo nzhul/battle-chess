@@ -136,6 +136,12 @@ public class PlayerManager : PieceManager
 
     public void StartHumanTurn()
     {
+        if (EnemyManager.Instance.AreAllPiecesDead())
+        {
+            GameManager.Instance.EndGame(Faction.Human, "All AI pieces are destroyed!");
+            return;
+        }
+
         this.InputEnabled = true;
         this.IsTurnComplete = false;
 

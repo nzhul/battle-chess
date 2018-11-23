@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
@@ -40,36 +42,49 @@ public class GameManager : MonoBehaviour
     Turn _currentTurn = Turn.Human;
     public Turn CurrentTurn { get { return _currentTurn; } }
 
-    // has the user pressed start?
-    bool _hasLevelStarted = false;
-    public bool HasLevelStarted { get { return _hasLevelStarted; } set { _hasLevelStarted = value; } }
+    public bool HasLevelStarted { get; set; }
 
-    // have we begun gamePlay?
     bool _isGamePlaying = false;
     public bool IsGamePlaying { get { return _isGamePlaying; } set { _isGamePlaying = value; } }
 
-    // have we met the game over condition?
-    bool _isGameOver = false;
-    public bool IsGameOver { get { return _isGameOver; } set { _isGameOver = value; } }
+    public bool IsGameOver { get; private set; }
 
-    // have the end level graphics finished playing?
-    bool _hasLevelFinished = false;
-    public bool HasLevelFinished { get { return _hasLevelFinished; } set { _hasLevelFinished = value; } }
+    public Faction Winner { get; set; }
 
-    // delay in between game stages
+    public string EndGameReason { get; set; }
+
+    public bool HasLevelFinished { get; set; }
+
     public float delay = 1f;
 
-    // events invoked for StartLevel/PlayLevel/EndLevel coroutines
     public UnityEvent setupEvent;
     public UnityEvent startLevelEvent;
     public UnityEvent playLevelEvent;
     public UnityEvent endLevelEvent;
-    public UnityEvent loseLevelEvent;
 
     private void Start()
     {
-        // TODO: null check
+        BoardManager.Instance.OnBoardInit += OnBoardInit; ;
         StartCoroutine(RunGameLoop());
+    }
+
+    private void OnBoardInit()
+    {
+        List<Piece> drones = EnemyManager.Instance.Pieces.Where(p => p.PieceType == typeof(Drone)).ToList();
+
+        foreach (var drone in drones)
+        {
+            drone.OnTurnCompleted += CheckDroneVictoryCondition;
+        }
+    }
+
+    private void CheckDroneVictoryCondition(Piece drone)
+    {
+        if (drone.CurrentY == 0)
+        {
+            string reason = string.Format("AI drone has reached human starting point at {0}:{1}", drone.CurrentX, drone.CurrentY);
+            this.EndGame(Faction.AI, reason);
+        }
     }
 
     private IEnumerator RunGameLoop()
@@ -88,7 +103,7 @@ public class GameManager : MonoBehaviour
 
         PlayerManager.Instance.InputEnabled = false;
 
-        while (!_hasLevelStarted)
+        while (!this.HasLevelStarted)
         {
             yield return null;
         }
@@ -112,24 +127,21 @@ public class GameManager : MonoBehaviour
             playLevelEvent.Invoke();
         }
 
-        while (!_isGameOver)
+        while (!this.IsGameOver)
         {
             yield return null;
-
-            _isGameOver = IsWinner();
         }
     }
 
-    private bool IsWinner()
+    public void EndGame(Faction winner, string reason)
     {
-        // TODO: do a check here whether human or AI has 0 pieces or 
-        // _droneReachedFinal = true;
-        return false;
+        this.Winner = winner;
+        this.IsGameOver = true;
+        this.EndGameReason = reason;
     }
 
     IEnumerator EndGameRoutine()
     {
-        Debug.Log("END LEVEL");
         PlayerManager.Instance.InputEnabled = false;
 
         if (endLevelEvent != null)
@@ -137,7 +149,7 @@ public class GameManager : MonoBehaviour
             endLevelEvent.Invoke();
         }
 
-        while (!_hasLevelFinished)
+        while (!this.HasLevelFinished)
         {
             yield return null;
         }
@@ -153,14 +165,14 @@ public class GameManager : MonoBehaviour
 
     public void PlayLevel()
     {
-        _hasLevelStarted = true;
+        this.HasLevelStarted = true;
     }
 
     public void UpdateTurn()
     {
         if (_currentTurn == Turn.Human)
         {
-            if (PlayerManager.Instance.IsTurnComplete && !EnemyManager.Instance.AreEnemiesAllDead())
+            if (PlayerManager.Instance.IsTurnComplete)
             {
                 PlayEnemyTurn();
             }
@@ -186,5 +198,10 @@ public class GameManager : MonoBehaviour
         _currentTurn = Turn.AI;
         PlayerManager.Instance.InputEnabled = false;
         EnemyManager.Instance.StartAITurn();
+    }
+
+    public void QuitApplication()
+    {
+        Application.Quit();
     }
 }

@@ -1,11 +1,23 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 public class PieceManager : MonoBehaviour
 {
     //TODO: this can be made as a property {get;set;}
     public List<Piece> Pieces;
+
+    public bool AreAllPiecesDead()
+    {
+        foreach (var piece in this.Pieces)
+        {
+            if (!piece.IsDead)
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
 
     public void RestoreWalkAndActions()
     {

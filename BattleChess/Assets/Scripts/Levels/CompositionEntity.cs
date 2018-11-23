@@ -3,9 +3,7 @@
 [Serializable]
 public class CompositionEntity
 {
-    public PieceType PieceType;
-
-    public Faction Faction;
+    public Piece PiecePrefab;
 
     public int X;
 

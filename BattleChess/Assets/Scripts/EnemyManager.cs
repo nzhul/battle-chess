@@ -58,21 +58,14 @@ public class EnemyManager : PieceManager
         }
     }
 
-    public bool AreEnemiesAllDead()
-    {
-        foreach (var enemy in this.Pieces)
-        {
-            if (!enemy.IsDead)
-            {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
     public void StartAITurn()
     {
+        if (PlayerManager.Instance.AreAllPiecesDead())
+        {
+            GameManager.Instance.EndGame(Faction.AI, "All human pieces are destroyed!");
+            return;
+        }
+
         if (!this.IsEnemyTurnComplete())
         {
             return;
@@ -87,7 +80,7 @@ public class EnemyManager : PieceManager
         }
         else
         {
-            Debug.Log("Cannot find enemy to play! Skipping AI Round!");
+            Debug.Log("All enemy actions are consumed! Skipping AI Turn!");
             this.CompleteEnemiesTurn();
             PlayerManager.Instance.SelectRandomPiece();
             GameManager.Instance.UpdateTurn();

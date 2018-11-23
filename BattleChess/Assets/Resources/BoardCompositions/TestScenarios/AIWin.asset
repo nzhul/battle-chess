@@ -9,21 +9,25 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c5a7d0bd68e05eb428c713145c8398fc, type: 3}
-  m_Name: Scenario1
+  m_Name: AIWin
   m_EditorClassIdentifier: 
-  Name: Easy
-  Description: Easy scenario to get used with the game.
-  PreviewImage: {fileID: 21300000, guid: 7b0aad624f106504e8715834d2d3d4bb, type: 3}
+  Name: AI Win
+  Description: Test scenario where AI easily wins
+  PreviewImage: {fileID: 0}
   Entities:
-  - PiecePrefab: {fileID: 114131012892040652, guid: a07edc01969f7fd45bfb716368884a8c,
+  - PiecePrefab: {fileID: 114903039538165618, guid: 83b3237dac415b145b998d5fe742b8a5,
       type: 2}
-    X: 0
-    Y: 0
-  - PiecePrefab: {fileID: 114131012892040652, guid: a07edc01969f7fd45bfb716368884a8c,
-      type: 2}
-    X: 3
-    Y: 0
+    X: 4
+    Y: 2
   - PiecePrefab: {fileID: 114834557167784604, guid: 7a01433cde6f6544badac21f626d582e,
       type: 2}
     X: 3
-    Y: 7
+    Y: 4
+  - PiecePrefab: {fileID: 114834557167784604, guid: 7a01433cde6f6544badac21f626d582e,
+      type: 2}
+    X: 4
+    Y: 4
+  - PiecePrefab: {fileID: 114834557167784604, guid: 7a01433cde6f6544badac21f626d582e,
+      type: 2}
+    X: 5
+    Y: 4

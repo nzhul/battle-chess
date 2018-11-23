@@ -63,6 +63,4 @@ public class BoardHighlights : MonoBehaviour
 
         return instance;
     }
-
-
 }

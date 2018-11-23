@@ -9,15 +9,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c5a7d0bd68e05eb428c713145c8398fc, type: 3}
-  m_Name: TestScenario1
+  m_Name: AIDroneWin
   m_EditorClassIdentifier: 
+  Name: AI Drone Win
+  Description: Test scenario where AI easily wins with drone
+  PreviewImage: {fileID: 0}
   Entities:
-  - PieceType: 0
-    X: 0
-    Y: 0
-  - PieceType: 1
-    X: 3
-    Y: 0
-  - PieceType: 5
+  - PiecePrefab: {fileID: 114903039538165618, guid: 83b3237dac415b145b998d5fe742b8a5,
+      type: 2}
     X: 4
-    Y: 7
+    Y: 5
+  - PiecePrefab: {fileID: 114834557167784604, guid: 7a01433cde6f6544badac21f626d582e,
+      type: 2}
+    X: 4
+    Y: 3
