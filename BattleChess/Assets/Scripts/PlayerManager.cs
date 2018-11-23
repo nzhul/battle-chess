@@ -96,13 +96,12 @@ public class PlayerManager : PieceManager
             this.SelectedPiece.sensor.DetectPossibleAttackTargets();
             this.SelectedPiece.Attack();
 
-            this.SelectedPiece.ActionConsumed = true;
-            this.SelectedPiece.WalkConsumed = true;
+            //this.SelectedPiece.ActionConsumed = true;
+            //this.SelectedPiece.WalkConsumed = true;
 
             // TODO extract this into action and subscribe somewhere.
-            BoardHighlights.Instance.HideHighlights();
-            this.IsTurnComplete = true;
-            this.SelectedPiece.InvokeOnTurnComplete();
+            //this.IsTurnComplete = true;
+            //this.SelectedPiece.InvokeOnTurnComplete();
         }
         else
         {

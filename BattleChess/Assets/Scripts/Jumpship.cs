@@ -1,9 +1,18 @@
-﻿// KNIGHT
-using UnityEngine;
-
-
-public class Jumpship : Piece
+﻿public class Jumpship : Piece
 {
+    protected override void Awake()
+    {
+        base.Awake();
+        this.OnAttackComplete += Jumpship_OnAttackComplete;
+    }
+
+    private void Jumpship_OnAttackComplete(Piece obj)
+    {
+        BoardHighlights.Instance.HideHighlights();
+        PlayerManager.Instance.IsTurnComplete = true;
+        obj.InvokeOnTurnComplete();
+    }
+
     public override bool[,] PossibleMoves()
     {
         bool[,] r = new bool[8, 8];

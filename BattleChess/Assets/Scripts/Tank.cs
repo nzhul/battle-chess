@@ -1,5 +1,17 @@
 ﻿public class Tank : Piece
 {
+    protected override void Awake()
+    {
+        base.Awake();
+        this.OnAttackComplete += Tank_OnAttackComplete;
+    }
+
+    private void Tank_OnAttackComplete(Piece obj)
+    {
+        BoardHighlights.Instance.HideHighlights();
+        PlayerManager.Instance.IsTurnComplete = true;
+        obj.InvokeOnTurnComplete();
+    }
     // TODO: Extract this in comman library
     public override bool[,] PossibleMoves()
     {

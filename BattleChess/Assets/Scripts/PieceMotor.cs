@@ -11,6 +11,8 @@ public class PieceMotor : MonoBehaviour
 
     public bool isMoving = false;
 
+    public bool isRotating = false;
+
     public iTween.EaseType easeType = iTween.EaseType.easeInOutExpo;
 
     public float moveSpeed = 1.5f;
@@ -52,7 +54,7 @@ public class PieceMotor : MonoBehaviour
         // optional turn to face destination
         if (faceDestination)
         {
-            FaceDestination();
+            FaceTarget(destination);
             yield return new WaitForSeconds(0.25f);
         }
 
@@ -96,10 +98,17 @@ public class PieceMotor : MonoBehaviour
         }
     }
 
-    protected void FaceDestination()
+    public void FaceTarget(Vector3 target)
     {
+        StartCoroutine(FaceTargetRoutine(target));
+    }
+
+    IEnumerator FaceTargetRoutine(Vector3 target)
+    {
+        isRotating = true;
+
         // direction to destination
-        Vector3 relativePosition = destination - transform.position;
+        Vector3 relativePosition = target - transform.position;
 
         // vector direction converted to a Quaternion rotation
         Quaternion newRotation = Quaternion.LookRotation(relativePosition, Vector3.up);
@@ -114,5 +123,20 @@ public class PieceMotor : MonoBehaviour
             "easetype", easeType,
             "time", rotateTime
         ));
+
+        while (!LookingAtTarget(target))
+        {
+            yield return null;
+        }
+
+        isRotating = false;
+    }
+
+    private bool LookingAtTarget(Vector3 target)
+    {
+        Vector3 dirFromTarget = (target - transform.position).normalized;
+        float dotProd = Vector3.Dot(dirFromTarget, transform.forward);
+
+        return dotProd >= 0.95;
     }
 }

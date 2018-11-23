@@ -480,6 +480,9 @@ MonoBehaviour:
   DetectionMethod: 0
   AttackMethod: 0
   IsHuman: 0
+  deathEffect: {fileID: 1019248618539596, guid: 4df2b569d021c3944bf30ef19abc63be,
+    type: 2}
+  Target: {fileID: 0}
   motor: {fileID: 0}
   sensor: {fileID: 0}
   Initiative: 0
@@ -497,7 +500,8 @@ MonoBehaviour:
   destination: {x: 0, y: 0, z: 0}
   faceDestination: 1
   isMoving: 0
-  easeType: 17
+  isRotating: 0
+  easeType: 16
   moveSpeed: 1.5
   rotateTime: 0.5
   iTweenDelay: 0

@@ -63,6 +63,10 @@ public abstract class Piece : MonoBehaviour, IDamageable
 
     public event Action<Piece> OnHealthChange;
 
+    public GameObject deathEffect;
+
+    public Piece Target;
+
     [HideInInspector]
     public PieceMotor motor;
 
@@ -132,15 +136,18 @@ public abstract class Piece : MonoBehaviour, IDamageable
             yield return null;
         }
 
-
-        // switch -> AttackMethod
-        // sensor.AttackTargets[0].TakeHit()
-        // this.TriggerAttackAnimation().
-
-        // OnAttackComplete();
-
         if (this.sensor.AttackTargets != null && this.sensor.AttackTargets.Count > 0)
         {
+            Piece faceTarget = this.sensor.AttackTargets[UnityEngine.Random.Range(0, this.sensor.AttackTargets.Count)];
+            this.motor.FaceTarget(faceTarget.transform.position);
+
+            while (motor.isRotating)
+            {
+                yield return null;
+            }
+
+            yield return new WaitForSeconds(.35f);
+
             if (this.AttackMethod == AttackMethod.All)
             {
                 foreach (var target in this.sensor.AttackTargets)
@@ -150,8 +157,7 @@ public abstract class Piece : MonoBehaviour, IDamageable
             }
             else if (this.AttackMethod == AttackMethod.Single)
             {
-                Piece target = this.sensor.AttackTargets[UnityEngine.Random.Range(0, this.sensor.AttackTargets.Count)];
-                target.TakeHit(this.AttackPower, Vector3.one);
+                faceTarget.TakeHit(this.AttackPower, Vector3.one);
             }
         }
 
@@ -199,28 +205,11 @@ public abstract class Piece : MonoBehaviour, IDamageable
         this.WalkConsumed = true;
         this.ActionConsumed = true;
         this.IsDead = true;
-        //this.FinishTurn();
         PlayerManager.Instance.Pieces.Remove(this);
         BoardManager.Instance.Pieces[this.CurrentX, this.CurrentY] = null;
 
-        //RoundManager.Instance.PieceActionsLeft--;
-        //GameManager.Instance.UpdateTurn();
+        Destroy(Instantiate(deathEffect.gameObject, transform.position, Quaternion.identity) as GameObject, 2);
 
-        //this.InvokeOnTurnComplete();
-
-        //if (this.OnDeath != null)
-        //{
-        //    this.OnDeath(this);
-        //}
-
-
-
-        ////if (!this.ActionConsumed)
-        ////{
-        ////    RoundManager.Instance.PieceActionsLeft--;
-        ////}
-
-        ////TODO: wait for death animation to complete.
         gameObject.SetActive(false);
         Destroy(gameObject);
     }
