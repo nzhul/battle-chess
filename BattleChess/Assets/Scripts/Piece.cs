@@ -153,11 +153,10 @@ public abstract class Piece : MonoBehaviour, IDamageable
                 shootEffect.Play();
             }
 
-            // TODO: Increase this delay based on the distance to the face target.
-            // Shorter distance -> shorter delay.
-            // Longer distance -> longer delay.
-            // This delay is used to wait for the shoot animation to complete!
-            yield return new WaitForSeconds(.45f);
+            float distance = Vector3.Distance(transform.position, faceTarget.transform.position);
+            float delay = distance * 0.06429f; // magic number :)
+
+            yield return new WaitForSeconds(delay);
 
             if (this.AttackMethod == AttackMethod.All)
             {

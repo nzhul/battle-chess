@@ -9,11 +9,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c5a7d0bd68e05eb428c713145c8398fc, type: 3}
-  m_Name: DeathEffects
+  m_Name: 05-KillingDrones
   m_EditorClassIdentifier: 
-  Name: Death test
-  Description: 
-  PreviewImage: {fileID: 0}
+  Name: Killing Drones
+  Description: It is always fun to kill some drones with tanks
+  PreviewImage: {fileID: 21300000, guid: b70e7cd1770c5044e8e27068dad39c17, type: 3}
   Entities:
   - PiecePrefab: {fileID: 114131012892040652, guid: a07edc01969f7fd45bfb716368884a8c,
       type: 2}
@@ -23,15 +23,27 @@ MonoBehaviour:
       type: 2}
     X: 4
     Y: 0
+  - PiecePrefab: {fileID: 114131012892040652, guid: a07edc01969f7fd45bfb716368884a8c,
+      type: 2}
+    X: 5
+    Y: 0
   - PiecePrefab: {fileID: 114834557167784604, guid: 7a01433cde6f6544badac21f626d582e,
       type: 2}
     X: 3
-    Y: 7
+    Y: 6
   - PiecePrefab: {fileID: 114834557167784604, guid: 7a01433cde6f6544badac21f626d582e,
       type: 2}
     X: 4
-    Y: 7
+    Y: 5
   - PiecePrefab: {fileID: 114834557167784604, guid: 7a01433cde6f6544badac21f626d582e,
       type: 2}
     X: 5
-    Y: 7
+    Y: 6
+  - PiecePrefab: {fileID: 114131012892040652, guid: a07edc01969f7fd45bfb716368884a8c,
+      type: 2}
+    X: 2
+    Y: 0
+  - PiecePrefab: {fileID: 114834557167784604, guid: 7a01433cde6f6544badac21f626d582e,
+      type: 2}
+    X: 2
+    Y: 5

@@ -9,93 +9,85 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c5a7d0bd68e05eb428c713145c8398fc, type: 3}
-  m_Name: Scenario3
+  m_Name: 03-Hard
   m_EditorClassIdentifier: 
   Name: Hard
   Description: Your tactical skills will be tested!
-  PreviewImage: {fileID: 21300000, guid: 7b0aad624f106504e8715834d2d3d4bb, type: 3}
+  PreviewImage: {fileID: 21300000, guid: dc75a888a7d139f4a9ff83309567bd0c, type: 3}
   Entities:
   - PiecePrefab: {fileID: 114903039538165618, guid: 83b3237dac415b145b998d5fe742b8a5,
       type: 2}
-    PieceType: 0
-    Faction: 0
     X: 2
     Y: 1
   - PiecePrefab: {fileID: 114903039538165618, guid: 83b3237dac415b145b998d5fe742b8a5,
       type: 2}
-    PieceType: 0
-    Faction: 0
     X: 3
     Y: 1
   - PiecePrefab: {fileID: 114903039538165618, guid: 83b3237dac415b145b998d5fe742b8a5,
       type: 2}
-    PieceType: 0
-    Faction: 0
     X: 4
     Y: 1
   - PiecePrefab: {fileID: 114903039538165618, guid: 83b3237dac415b145b998d5fe742b8a5,
       type: 2}
-    PieceType: 0
-    Faction: 0
     X: 5
     Y: 1
   - PiecePrefab: {fileID: 114131012892040652, guid: a07edc01969f7fd45bfb716368884a8c,
       type: 2}
-    PieceType: 2
-    Faction: 0
     X: 4
     Y: 0
   - PiecePrefab: {fileID: 114615130449648528, guid: 6227965df7e53e340a3e37e69e0c8fc0,
       type: 2}
-    PieceType: 1
-    Faction: 0
     X: 5
     Y: 0
   - PiecePrefab: {fileID: 114615130449648528, guid: 6227965df7e53e340a3e37e69e0c8fc0,
       type: 2}
-    PieceType: 1
-    Faction: 0
     X: 3
     Y: 0
   - PiecePrefab: {fileID: 114834557167784604, guid: 7a01433cde6f6544badac21f626d582e,
       type: 2}
-    PieceType: 3
-    Faction: 1
     X: 2
     Y: 6
   - PiecePrefab: {fileID: 114834557167784604, guid: 7a01433cde6f6544badac21f626d582e,
       type: 2}
-    PieceType: 3
-    Faction: 1
     X: 3
     Y: 6
   - PiecePrefab: {fileID: 114834557167784604, guid: 7a01433cde6f6544badac21f626d582e,
       type: 2}
-    PieceType: 3
-    Faction: 1
     X: 4
     Y: 6
   - PiecePrefab: {fileID: 114834557167784604, guid: 7a01433cde6f6544badac21f626d582e,
       type: 2}
-    PieceType: 3
-    Faction: 1
     X: 5
     Y: 6
   - PiecePrefab: {fileID: 114100746096180514, guid: d1caceb156cb7314aaec1b37835783ec,
       type: 2}
-    PieceType: 4
-    Faction: 1
     X: 3
     Y: 7
   - PiecePrefab: {fileID: 114100746096180514, guid: d1caceb156cb7314aaec1b37835783ec,
       type: 2}
-    PieceType: 4
-    Faction: 1
     X: 5
     Y: 7
   - PiecePrefab: {fileID: 114349502201771468, guid: 2ac2552ec924de74188739ac8d887187,
       type: 2}
-    PieceType: 5
-    Faction: 1
     X: 4
     Y: 7
+  - PiecePrefab: {fileID: 114834557167784604, guid: 7a01433cde6f6544badac21f626d582e,
+      type: 2}
+    X: 6
+    Y: 6
+  - PiecePrefab: {fileID: 114903039538165618, guid: 83b3237dac415b145b998d5fe742b8a5,
+      type: 2}
+    X: 6
+    Y: 1
+  - PiecePrefab: {fileID: 114834557167784604, guid: 7a01433cde6f6544badac21f626d582e,
+      type: 2}
+    X: 4
+    Y: 5
+  - PiecePrefab: {fileID: 114834557167784604, guid: 7a01433cde6f6544badac21f626d582e,
+      type: 2}
+    X: 3
+    Y: 5
+  - PiecePrefab: {fileID: 114834557167784604, guid: 7a01433cde6f6544badac21f626d582e,
+      type: 2}
+    X: 5
+    Y: 5

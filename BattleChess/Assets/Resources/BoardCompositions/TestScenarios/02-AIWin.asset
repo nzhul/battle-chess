@@ -9,40 +9,25 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c5a7d0bd68e05eb428c713145c8398fc, type: 3}
-  m_Name: Scenario2
+  m_Name: 02-AIWin
   m_EditorClassIdentifier: 
-  Name: Medium
-  Description: Medium scenario where you will have to think a litte before get the
-    win.
-  PreviewImage: {fileID: 21300000, guid: 7b0aad624f106504e8715834d2d3d4bb, type: 3}
+  Name: AI Win
+  Description: Test scenario where AI easily wins
+  PreviewImage: {fileID: 21300000, guid: 3b8fe44970ae8f6479412d4496006cc0, type: 3}
   Entities:
   - PiecePrefab: {fileID: 114903039538165618, guid: 83b3237dac415b145b998d5fe742b8a5,
       type: 2}
-    PieceType: 0
-    Faction: 0
-    X: 0
-    Y: 0
-  - PiecePrefab: {fileID: 114903039538165618, guid: 83b3237dac415b145b998d5fe742b8a5,
-      type: 2}
-    PieceType: 0
-    Faction: 0
-    X: 3
-    Y: 0
-  - PiecePrefab: {fileID: 114349502201771468, guid: 2ac2552ec924de74188739ac8d887187,
-      type: 2}
-    PieceType: 5
-    Faction: 1
     X: 4
-    Y: 7
+    Y: 2
   - PiecePrefab: {fileID: 114834557167784604, guid: 7a01433cde6f6544badac21f626d582e,
       type: 2}
-    PieceType: 3
-    Faction: 1
-    X: 1
-    Y: 6
+    X: 3
+    Y: 4
   - PiecePrefab: {fileID: 114834557167784604, guid: 7a01433cde6f6544badac21f626d582e,
       type: 2}
-    PieceType: 3
-    Faction: 1
-    X: 2
-    Y: 6
+    X: 4
+    Y: 4
+  - PiecePrefab: {fileID: 114834557167784604, guid: 7a01433cde6f6544badac21f626d582e,
+      type: 2}
+    X: 5
+    Y: 4

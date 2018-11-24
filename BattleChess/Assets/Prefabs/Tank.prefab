@@ -138,6 +138,7 @@ GameObject:
   - component: {fileID: 114507524770052152}
   - component: {fileID: 114294498681953144}
   - component: {fileID: 114216293830067640}
+  - component: {fileID: 136649645571601730}
   m_Layer: 0
   m_Name: Tank
   m_TagString: Untagged
@@ -165,7 +166,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1957289545196710}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.59, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4827966538246058}
@@ -492,6 +493,19 @@ MonoBehaviour:
   moveSpeed: 1.5
   rotateTime: 0.5
   iTweenDelay: 0
+--- !u!136 &136649645571601730
+CapsuleCollider:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1957289545196710}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.21832526
+  m_Height: 0.85
+  m_Direction: 2
+  m_Center: {x: 0, y: 0.09843087, z: 0}
 --- !u!198 &198319965756715738
 ParticleSystem:
   m_ObjectHideFlags: 1
