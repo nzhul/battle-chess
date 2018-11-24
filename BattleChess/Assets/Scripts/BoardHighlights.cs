@@ -3,11 +3,11 @@ using UnityEngine;
 
 public class BoardHighlights : MonoBehaviour
 {
-
-    public static BoardHighlights Instance { get; set; }
+    private List<GameObject> _highlights;
 
     public GameObject highlightPrefab;
-    private List<GameObject> highlights;
+
+    public static BoardHighlights Instance { get; set; }
 
     private void Awake()
     {
@@ -16,7 +16,7 @@ public class BoardHighlights : MonoBehaviour
 
     private void Start()
     {
-        this.highlights = new List<GameObject>();
+        this._highlights = new List<GameObject>();
     }
 
     public void HighlightAllowedMoves(bool[,] moves)
@@ -45,7 +45,7 @@ public class BoardHighlights : MonoBehaviour
 
     public void HideHighlights()
     {
-        foreach (GameObject go in this.highlights)
+        foreach (GameObject go in this._highlights)
         {
             go.GetComponent<MeshRenderer>().material.color = Color.white;
             go.SetActive(false);
@@ -54,11 +54,11 @@ public class BoardHighlights : MonoBehaviour
 
     private GameObject GetHighlightObject()
     {
-        GameObject instance = highlights.Find(x => !x.activeSelf);
+        GameObject instance = _highlights.Find(x => !x.activeSelf);
         if (instance == null)
         {
             instance = Instantiate(highlightPrefab);
-            this.highlights.Add(instance);
+            this._highlights.Add(instance);
         }
 
         return instance;

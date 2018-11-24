@@ -2,8 +2,6 @@
 using System.Linq;
 using UnityEngine;
 
-// Singleton that stores a collection of all active enemies on the board.
-// and manages enemy turns
 public class EnemyManager : PieceManager
 {
     #region Singleton
@@ -50,14 +48,6 @@ public class EnemyManager : PieceManager
         return true;
     }
 
-    public void CompleteEnemiesTurn()
-    {
-        foreach (var enemy in this.Pieces)
-        {
-            enemy.IsTurnComplete = true;
-        }
-    }
-
     public void StartAITurn()
     {
         if (PlayerManager.Instance.AreAllPiecesDead())
@@ -81,7 +71,7 @@ public class EnemyManager : PieceManager
         else
         {
             Debug.Log("All enemy actions are consumed! Skipping AI Turn!");
-            this.CompleteEnemiesTurn();
+            this.CompletePiecesTurns();
             PlayerManager.Instance.SelectRandomPiece();
             GameManager.Instance.UpdateTurn();
         }

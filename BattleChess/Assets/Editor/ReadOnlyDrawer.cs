@@ -1,5 +1,4 @@
-﻿using Unity.Collections;
-using UnityEditor;
+﻿using UnityEditor;
 using UnityEngine;
 
 [CustomPropertyDrawer(typeof(ReadOnlyAttribute))]

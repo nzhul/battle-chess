@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerManager : PieceManager
 {
@@ -30,6 +31,9 @@ public class PlayerManager : PieceManager
     }
     #endregion
 
+    public Button AttackButton;
+    public Button DefendButton;
+
     private void Start()
     {
         BoardManager.Instance.OnBoardInit += BoardManager_OnBoardInit;
@@ -55,25 +59,43 @@ public class PlayerManager : PieceManager
         }
     }
 
-    private void PlayerManager_OnTurnCompleted(Piece obj)
+    private void PlayerManager_OnTurnCompleted(Piece piece)
     {
-        if (!obj.IsHuman)
+        if (!piece.IsHuman)
         {
             this.SelectRandomPiece();
         }
     }
 
-    private void Motor_OnMovementComplete(Piece obj)
+    private void Motor_OnMovementComplete(Piece piece)
     {
-        if (obj.IsHuman)
+        if (piece.IsHuman)
         {
-            BoardManager.Instance.SelectPiece(obj.CurrentX, obj.CurrentY);
+            BoardManager.Instance.SelectPiece(piece.CurrentX, piece.CurrentY);
         }
 
     }
 
     bool _inputEnabled = false;
-    public bool InputEnabled { get { return _inputEnabled; } set { _inputEnabled = value; } }
+    public bool InputEnabled
+    {
+        get
+        {
+            return _inputEnabled;
+        }
+        set
+        {
+            _inputEnabled = value;
+
+            this.EnableUIButtons(value);
+        }
+    }
+
+    private void EnableUIButtons(bool value)
+    {
+        this.AttackButton.interactable = value;
+        this.DefendButton.interactable = value;
+    }
 
     public bool IsTurnComplete { get; set; }
 
@@ -88,20 +110,10 @@ public class PlayerManager : PieceManager
                 Debug.Log("This unit has already consumed his action");
                 return;
             }
-            // Use currently selected unit
-            // Scan for possible targets based on the selected unit attack type and range
-            // mark the possible targets on the battle field
-            // a player is in targeting mode. He must select a target or press cancel/escape
 
+            this.InputEnabled = false;
             this.SelectedPiece.sensor.DetectPossibleAttackTargets();
             this.SelectedPiece.Attack();
-
-            //this.SelectedPiece.ActionConsumed = true;
-            //this.SelectedPiece.WalkConsumed = true;
-
-            // TODO extract this into action and subscribe somewhere.
-            //this.IsTurnComplete = true;
-            //this.SelectedPiece.InvokeOnTurnComplete();
         }
         else
         {
@@ -119,10 +131,6 @@ public class PlayerManager : PieceManager
                 return;
             }
 
-            this.SelectedPiece.ActionConsumed = true;
-            this.SelectedPiece.WalkConsumed = true;
-
-            // TODO extract this into action and subscribe somewhere.
             BoardHighlights.Instance.HideHighlights();
             this.IsTurnComplete = true;
             this.SelectedPiece.InvokeOnTurnComplete();
@@ -144,8 +152,6 @@ public class PlayerManager : PieceManager
         this.InputEnabled = true;
         this.IsTurnComplete = false;
 
-        // HACK: this check is invoked before the Event callback in RoundManager
-        // thats why i compare with > 1 and not > 0
         if (!this.HaveRemainingPiecesToAct() && (RoundManager.Instance.PlayerActionsLeft == 0))
         {
             // Skipping human turn because he have no more actions for this round!

@@ -110,7 +110,6 @@ public class CommandUnit : EnemyPiece
             }
         }
 
-
         // Left
         i = this.CurrentX;
         maxI = this.CurrentX - this.Speed;

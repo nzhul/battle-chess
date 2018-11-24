@@ -1759,7 +1759,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74a640d639850f64d8fef475779a0734, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  delay: 1
   setupEvent:
     m_PersistentCalls:
       m_Calls:
@@ -1834,17 +1833,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 0}
-        m_MethodName: FadeOff
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
       - m_Target: {fileID: 2093047889}
         m_MethodName: SetActive
         m_Mode: 6
@@ -1884,17 +1872,6 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 709926267}
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 0}
         m_MethodName: SetActive
         m_Mode: 6
         m_Arguments:
@@ -2868,7 +2845,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8e588984725744549b9aef97dc073678, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Pieces: []
+  AttackButton: {fileID: 817597630}
+  DefendButton: {fileID: 824161898}
 --- !u!1 &954072280
 GameObject:
   m_ObjectHideFlags: 0
@@ -4766,7 +4744,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b9efc38055eee644390cd11c7ff0ccd1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  IsHumanTurn: 1
   layerMask:
     serializedVersion: 2
     m_Bits: 512
@@ -5319,7 +5296,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0e67f3aa07d3c2459546b4cd1901dfb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Pieces: []
 --- !u!1 &2063094408
 GameObject:
   m_ObjectHideFlags: 0

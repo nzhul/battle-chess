@@ -5,6 +5,8 @@ using UnityEngine;
 [RequireComponent(typeof(Piece))]
 public class PieceMotor : MonoBehaviour
 {
+    private Piece piece;
+
     public Vector3 destination;
 
     public bool faceDestination = true;
@@ -20,8 +22,6 @@ public class PieceMotor : MonoBehaviour
     public float rotateTime = 0.5f;
 
     public float iTweenDelay = 0f;
-
-    private Piece piece;
 
     public event Action<Piece> OnMovementComplete;
 
@@ -48,20 +48,16 @@ public class PieceMotor : MonoBehaviour
         isMoving = true;
         PlayerManager.Instance.InputEnabled = false;
 
-        // set the destination to the destinationPos being passed into the coroutine
         destination = destinationPos;
 
-        // optional turn to face destination
         if (faceDestination)
         {
             FaceTarget(destination);
             yield return new WaitForSeconds(0.25f);
         }
 
-        // pause the coroutine for a brief periof
         yield return new WaitForSeconds(delayTime);
 
-        // move toward the destinationPos using the easeType and moveSpeed variables
         iTween.MoveTo(gameObject, iTween.Hash(
             "x", destinationPos.x,
             "y", destinationPos.y,
@@ -76,13 +72,10 @@ public class PieceMotor : MonoBehaviour
             yield return null;
         }
 
-        // stop the iTween immediately
         iTween.Stop(gameObject);
 
-        // set our position to the destination explicitly
         transform.position = destinationPos;
 
-        // we are not moving
         isMoving = false;
         PlayerManager.Instance.InputEnabled = true;
         this.piece.WalkConsumed = true;
@@ -107,16 +100,12 @@ public class PieceMotor : MonoBehaviour
     {
         isRotating = true;
 
-        // direction to destination
         Vector3 relativePosition = target - transform.position;
 
-        // vector direction converted to a Quaternion rotation
         Quaternion newRotation = Quaternion.LookRotation(relativePosition, Vector3.up);
 
-        // euler angle y component 
         float newY = newRotation.eulerAngles.y;
 
-        // iTween rotate
         iTween.RotateTo(gameObject, iTween.Hash(
             "y", newY,
             "delay", 0f,

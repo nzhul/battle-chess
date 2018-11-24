@@ -10,9 +10,9 @@ public class Dreadnought : EnemyPiece
         this.OnAttackComplete += Drone_OnAttackComplete;
     }
 
-    private void Drone_OnAttackComplete(Piece obj)
+    private void Drone_OnAttackComplete(Piece piece)
     {
-        obj.InvokeOnTurnComplete();
+        piece.InvokeOnTurnComplete();
     }
 
     protected override void ExecuteTurn()
@@ -21,11 +21,6 @@ public class Dreadnought : EnemyPiece
         this.TryMove();
         base.sensor.DetectPossibleAttackTargets();
         this.Attack();
-    }
-
-    private void ShootAtRandomTargetIfPossible()
-    {
-        //throw new NotImplementedException();
     }
 
     protected override Coord TryFindDestination()
@@ -184,8 +179,6 @@ public class Dreadnought : EnemyPiece
             }
         }
 
-
-        //BISHOP
         // Top Left
         i = this.CurrentX;
         j = this.CurrentY;

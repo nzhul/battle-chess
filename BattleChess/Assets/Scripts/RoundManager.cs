@@ -87,10 +87,8 @@ public class RoundManager : MonoBehaviour
         this.PlayerActionsLeft = PlayerManager.Instance.Pieces.Count(p => !p.IsDead);
         this.AIActionsLeft = EnemyManager.Instance.Pieces.Count(p => !p.IsDead);
 
-        // restore player movement and actions
         PlayerManager.Instance.RestoreWalkAndActions();
 
-        // restore enemy movement and actions
         EnemyManager.Instance.RestoreWalkAndActions();
 
         if (this.OnNewRound != null)

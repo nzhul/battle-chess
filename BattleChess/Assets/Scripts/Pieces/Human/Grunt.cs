@@ -1,19 +1,5 @@
-﻿// ROOK
-public class Grunt : Piece
+﻿public class Grunt : HumanPiece
 {
-    protected override void Awake()
-    {
-        base.Awake();
-        this.OnAttackComplete += Grunt_OnAttackComplete;
-    }
-
-    private void Grunt_OnAttackComplete(Piece obj)
-    {
-        BoardHighlights.Instance.HideHighlights();
-        PlayerManager.Instance.IsTurnComplete = true;
-        obj.InvokeOnTurnComplete();
-    }
-
     public override bool[,] PossibleMoves()
     {
         bool[,] r = new bool[8, 8]; // TODO: calculate this dynamicaly

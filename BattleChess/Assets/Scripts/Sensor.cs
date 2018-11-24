@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -34,8 +33,6 @@ public class Sensor : MonoBehaviour
                 this.ClosestEnemyPiece = target;
             }
         }
-
-        // Debug.Log(_pieceType.Name + " closest target is " + this.ClosestHumanPiece.name);
     }
 
     public void DetectPossibleAttackTargets()

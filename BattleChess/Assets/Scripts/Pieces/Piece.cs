@@ -6,6 +6,18 @@ using UnityEngine;
 [RequireComponent(typeof(Sensor))]
 public abstract class Piece : MonoBehaviour, IDamageable
 {
+    public GameObject deathEffect;
+
+    public ParticleSystem shootEffect;
+
+    public Piece Target;
+
+    [HideInInspector]
+    public PieceMotor motor;
+
+    [HideInInspector]
+    public Sensor sensor;
+
     [Tooltip("How many tiles a pice can walk.")]
     public int Speed = 1;
 
@@ -63,18 +75,6 @@ public abstract class Piece : MonoBehaviour, IDamageable
 
     public event Action<Piece> OnHealthChange;
 
-    public GameObject deathEffect;
-
-    public ParticleSystem shootEffect;
-
-    public Piece Target;
-
-    [HideInInspector]
-    public PieceMotor motor;
-
-    [HideInInspector]
-    public Sensor sensor;
-
     private void Piece_OnTurnCompleted(Piece obj)
     {
         this.FinishTurn();
@@ -113,11 +113,6 @@ public abstract class Piece : MonoBehaviour, IDamageable
         }
     }
 
-    public virtual bool[,] PossibleMoves()
-    {
-        return new bool[8, 8]; //TODO: use grid size; from boardManager;
-    }
-
     public virtual void FinishTurn()
     {
         this.IsTurnComplete = true;
@@ -132,7 +127,6 @@ public abstract class Piece : MonoBehaviour, IDamageable
 
     IEnumerator AttackRoutine()
     {
-        // wait the piece to stop moving
         while (motor.isMoving)
         {
             yield return null;
@@ -181,7 +175,6 @@ public abstract class Piece : MonoBehaviour, IDamageable
 
     public void TakeHit(int damage, Vector3 hitDirection)
     {
-        // Do something with the hitDirection
         this.TakeDamage(damage);
     }
 
@@ -219,8 +212,6 @@ public abstract class Piece : MonoBehaviour, IDamageable
         BoardManager.Instance.Pieces[this.CurrentX, this.CurrentY] = null;
 
         Destroy(Instantiate(deathEffect.gameObject, transform.position, Quaternion.identity) as GameObject, 2);
-
-        gameObject.SetActive(false);
         Destroy(gameObject);
     }
 
@@ -237,4 +228,6 @@ public abstract class Piece : MonoBehaviour, IDamageable
         // OnDeath;
         // OnAttackComplete;
     }
+
+    public abstract bool[,] PossibleMoves();
 }

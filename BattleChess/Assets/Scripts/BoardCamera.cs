@@ -2,6 +2,9 @@
 
 public class BoardCamera : MonoBehaviour
 {
+    private int _tilesCountX;
+
+    private int _tilesCountY;
 
     public float stickMinZoom, stickMaxZoom;
 
@@ -17,16 +20,13 @@ public class BoardCamera : MonoBehaviour
 
     float rotationAngle;
 
-    int tilesCountX;
-    int tilesCountY;
-
     private void Awake()
     {
         //TODO: calculate hardcoded values
         swivel = transform.GetChild(0);
         stick = swivel.GetChild(0);
-        tilesCountX = 3;
-        tilesCountY = 3;
+        _tilesCountX = 3;
+        _tilesCountY = 3;
         transform.localPosition = new Vector3(4, 0, 2);
     }
 
@@ -94,8 +94,8 @@ public class BoardCamera : MonoBehaviour
 
     Vector3 ClampPosition(Vector3 position)
     {
-        float tilesCountX = this.tilesCountX;
-        float tilesCountZ = this.tilesCountY;
+        float tilesCountX = this._tilesCountX;
+        float tilesCountZ = this._tilesCountY;
         float tileSizeX = 1f;
         float tileSizeZ = 1f;
 

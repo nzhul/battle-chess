@@ -26,10 +26,6 @@ public abstract class EnemyPiece : Piece
         StartCoroutine(PlayTurnRoutine());
     }
 
-    // main enemy routine: 
-    // Detect closest human piece. 
-    // Move towards it for possible. 
-    // Attack the piece if possible.
     IEnumerator PlayTurnRoutine()
     {
         if (GameManager.Instance != null && !GameManager.Instance.IsGameOver)

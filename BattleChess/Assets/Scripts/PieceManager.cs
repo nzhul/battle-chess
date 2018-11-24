@@ -3,8 +3,7 @@ using UnityEngine;
 
 public class PieceManager : MonoBehaviour
 {
-    //TODO: this can be made as a property {get;set;}
-    public List<Piece> Pieces;
+    public List<Piece> Pieces { get; set; }
 
     public bool AreAllPiecesDead()
     {
@@ -21,7 +20,6 @@ public class PieceManager : MonoBehaviour
 
     public void RestoreWalkAndActions()
     {
-        // Debug.Log("Restoring " + GetType().Name + " walk and actions!");
         foreach (var piece in this.Pieces)
         {
             if (!piece.IsDead)
@@ -30,18 +28,6 @@ public class PieceManager : MonoBehaviour
                 piece.ActionConsumed = false;
             }
         }
-    }
-
-    public bool AllActionsAreConsumed()
-    {
-        foreach (var piece in this.Pieces)
-        {
-            if (piece.ActionConsumed == false)
-            {
-                return false;
-            }
-        }
-        return true;
     }
 
     public bool HaveRemainingPiecesToAct()
@@ -57,7 +43,13 @@ public class PieceManager : MonoBehaviour
         }
 
         return result;
-        // are there any pieces that have not completed their action ?
-        //return this.Pieces.Any(p => !p.ActionConsumed);
+    }
+
+    public void CompletePiecesTurns()
+    {
+        foreach (var piece in this.Pieces)
+        {
+            piece.IsTurnComplete = true;
+        }
     }
 }

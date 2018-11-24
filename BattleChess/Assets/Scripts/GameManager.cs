@@ -1,17 +1,9 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
-
-[Serializable]
-public enum Turn
-{
-    Human,
-    AI
-}
 
 public class GameManager : MonoBehaviour
 {
@@ -39,23 +31,17 @@ public class GameManager : MonoBehaviour
     }
     #endregion
 
-    Turn _currentTurn = Turn.Human;
-    public Turn CurrentTurn { get { return _currentTurn; } }
+    private Faction _currentTurn = Faction.Human;
+
+    public bool HasLevelFinished { get; set; }
 
     public bool HasLevelStarted { get; set; }
-
-    bool _isGamePlaying = false;
-    public bool IsGamePlaying { get { return _isGamePlaying; } set { _isGamePlaying = value; } }
 
     public bool IsGameOver { get; private set; }
 
     public Faction Winner { get; set; }
 
     public string EndGameReason { get; set; }
-
-    public bool HasLevelFinished { get; set; }
-
-    public float delay = 1f;
 
     public UnityEvent setupEvent;
     public UnityEvent startLevelEvent;
@@ -108,7 +94,6 @@ public class GameManager : MonoBehaviour
             yield return null;
         }
 
-        // trigger events when we press the StartButton
         if (startLevelEvent != null)
         {
             startLevelEvent.Invoke();
@@ -118,8 +103,7 @@ public class GameManager : MonoBehaviour
 
     IEnumerator PlayGameRoutine()
     {
-        _isGamePlaying = true;
-        yield return new WaitForSeconds(delay);
+        yield return new WaitForSeconds(1f);
         PlayerManager.Instance.InputEnabled = true;
 
         if (playLevelEvent != null)
@@ -170,7 +154,7 @@ public class GameManager : MonoBehaviour
 
     public void UpdateTurn()
     {
-        if (_currentTurn == Turn.Human)
+        if (_currentTurn == Faction.Human)
         {
             if (PlayerManager.Instance.IsTurnComplete)
             {
@@ -178,7 +162,7 @@ public class GameManager : MonoBehaviour
             }
 
         }
-        else if (_currentTurn == Turn.AI)
+        else if (_currentTurn == Faction.AI)
         {
             if (EnemyManager.Instance.IsEnemyTurnComplete())
             {
@@ -189,13 +173,13 @@ public class GameManager : MonoBehaviour
 
     private void PlayPlayerTurn()
     {
-        _currentTurn = Turn.Human;
+        _currentTurn = Faction.Human;
         PlayerManager.Instance.StartHumanTurn();
     }
 
     private void PlayEnemyTurn()
     {
-        _currentTurn = Turn.AI;
+        _currentTurn = Faction.AI;
         PlayerManager.Instance.InputEnabled = false;
         EnemyManager.Instance.StartAITurn();
     }

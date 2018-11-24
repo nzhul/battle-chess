@@ -28,29 +28,29 @@ public class BoardManager : MonoBehaviour
     }
     #endregion
 
-    private bool[,] AllowedMoves { get; set; }
-
-    public Piece[,] Pieces { get; set; }
-
     private const float TILE_SIZE = 1f;
+
     private const float TILE_OFFSET = .5f;
 
-    private int selectionX = -1; // TODO: use Coord struct instead.
-    private int selectionY = -1;
+    private int _selectionX = -1;
 
-    private Quaternion faceCameraOrientation = Quaternion.Euler(0, 180, 0);
+    private int _selectionY = -1;
 
-    public bool IsHumanTurn = true;
+    private bool[,] _allowedMoves;
+
+    private Quaternion _faceCameraOrientation = Quaternion.Euler(0, 180, 0);
 
     public LayerMask layerMask;
 
-    public event Action OnBoardInit;
+    public PieceInfoPanel infoPanel;
 
     public int InitialPiecesCount { get; set; }
 
     public BoardComposition CurrentScenario { get; set; }
 
-    public PieceInfoPanel infoPanel;
+    public Piece[,] Pieces { get; set; }
+
+    public event Action OnBoardInit;
 
     private void Update()
     {
@@ -62,22 +62,22 @@ public class BoardManager : MonoBehaviour
 
         if (Input.GetMouseButtonDown(0) && PlayerManager.Instance.InputEnabled && !EventSystem.current.IsPointerOverGameObject())
         {
-            if (this.selectionX >= 0 && this.selectionY >= 0)
+            if (this._selectionX >= 0 && this._selectionY >= 0)
             {
                 if (PlayerManager.Instance.SelectedPiece == null)
                 {
-                    SelectPiece(this.selectionX, this.selectionY);
+                    SelectPiece(this._selectionX, this._selectionY);
                 }
                 else
                 {
-                    Piece otherPiece = this.Pieces[this.selectionX, this.selectionY];
+                    Piece otherPiece = this.Pieces[this._selectionX, this._selectionY];
                     if (otherPiece == null && !PlayerManager.Instance.SelectedPiece.WalkConsumed)
                     {
-                        MovePiece(this.selectionX, this.selectionY);
+                        MovePiece(this._selectionX, this._selectionY);
                     }
                     else if (otherPiece != null && otherPiece != PlayerManager.Instance.SelectedPiece && !otherPiece.ActionConsumed)
                     {
-                        SelectPiece(this.selectionX, this.selectionY);
+                        SelectPiece(this._selectionX, this._selectionY);
                     }
                 }
             }
@@ -85,9 +85,9 @@ public class BoardManager : MonoBehaviour
 
         if (Input.GetMouseButtonDown(1) && GameManager.Instance.HasLevelStarted)
         {
-            if (this.selectionX >= 0 && this.selectionY >= 0)
+            if (this._selectionX >= 0 && this._selectionY >= 0)
             {
-                Piece piece = this.Pieces[this.selectionX, this.selectionY];
+                Piece piece = this.Pieces[this._selectionX, this._selectionY];
                 if (piece != null)
                 {
                     infoPanel.ShowPanel(piece);
@@ -117,17 +117,57 @@ public class BoardManager : MonoBehaviour
 
         if (!this.Pieces[x, y].WalkConsumed)
         {
-            this.AllowedMoves = this.Pieces[x, y].PossibleMoves();
-            BoardHighlights.Instance.HighlightAllowedMoves(this.AllowedMoves);
+            this._allowedMoves = this.Pieces[x, y].PossibleMoves();
+            BoardHighlights.Instance.HighlightAllowedMoves(this._allowedMoves);
         }
 
         PlayerManager.Instance.SelectedPiece = this.Pieces[x, y];
         BoardHighlights.Instance.HighlightSelection(x, y);
     }
 
+    public void InitBoard()
+    {
+        this.Pieces = new Piece[8, 8];
+
+        foreach (var entity in this.CurrentScenario.Entities)
+        {
+            if (entity.PiecePrefab.IsHuman)
+            {
+                Piece spawnedPiece = SpawnPiece(entity.PiecePrefab.gameObject, entity.X, entity.Y, Quaternion.identity);
+                if (spawnedPiece != null)
+                {
+                    PlayerManager.Instance.Pieces.Add(spawnedPiece);
+                }
+            }
+
+            if (!entity.PiecePrefab.IsHuman)
+            {
+                Piece spawnedPiece = SpawnPiece(entity.PiecePrefab.gameObject, entity.X, entity.Y, _faceCameraOrientation);
+                if (spawnedPiece != null)
+                {
+                    EnemyManager.Instance.Pieces.Add(spawnedPiece);
+                }
+            }
+        }
+
+        if (this.OnBoardInit != null)
+        {
+            this.OnBoardInit();
+        }
+    }
+
+    public Vector3 GetTileCenter(int x, int y)
+    {
+        Vector3 origin = Vector3.zero;
+        origin.x += (TILE_SIZE * x) + TILE_OFFSET;
+        origin.z += (TILE_SIZE * y) + TILE_OFFSET;
+
+        return origin;
+    }
+
     private void MovePiece(int x, int y)
     {
-        if (this.AllowedMoves[x, y])
+        if (this._allowedMoves[x, y])
         {
             this.Pieces[PlayerManager.Instance.SelectedPiece.CurrentX, PlayerManager.Instance.SelectedPiece.CurrentY] = null;
             PlayerManager.Instance.SelectedPiece.motor.Move(this.GetTileCenter(x, y));
@@ -149,13 +189,13 @@ public class BoardManager : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, 25f, layerMask))
         {
-            this.selectionX = (int)hit.point.x;
-            this.selectionY = (int)hit.point.z;
+            this._selectionX = (int)hit.point.x;
+            this._selectionY = (int)hit.point.z;
         }
         else
         {
-            this.selectionX = -1;
-            this.selectionY = -1;
+            this._selectionX = -1;
+            this._selectionY = -1;
         }
     }
 
@@ -176,101 +216,6 @@ public class BoardManager : MonoBehaviour
         return instance.GetComponent<Piece>();
     }
 
-    public void InitBoard()
-    {
-        this.Pieces = new Piece[8, 8];
-
-        foreach (var entity in this.CurrentScenario.Entities)
-        {
-            if (entity.PiecePrefab.IsHuman)
-            {
-                Piece spawnedPiece = SpawnPiece(entity.PiecePrefab.gameObject, entity.X, entity.Y, Quaternion.identity);
-                if (spawnedPiece != null)
-                {
-                    PlayerManager.Instance.Pieces.Add(spawnedPiece);
-                }
-            }
-
-            if (!entity.PiecePrefab.IsHuman)
-            {
-                Piece spawnedPiece = SpawnPiece(entity.PiecePrefab.gameObject, entity.X, entity.Y, faceCameraOrientation);
-                if (spawnedPiece != null)
-                {
-                    EnemyManager.Instance.Pieces.Add(spawnedPiece);
-                }
-            }
-        }
-
-        // tanks in enemy line
-        //PlayerManager.Instance.Pieces.Add(SpawnPiece(0, 1, 1, Quaternion.identity));
-        //PlayerManager.Instance.Pieces.Add(SpawnPiece(2, 7, 1, Quaternion.identity));
-
-
-        //// CommandUnit scenario
-        //PlayerManager.Instance.Pieces.Add(SpawnPiece(2, 2, 7, Quaternion.identity)); // Tank
-        //PlayerManager.Instance.Pieces.Add(SpawnPiece(0, 5, 7, Quaternion.identity)); // Grunt
-        //EnemyManager.Instance.Pieces.Add(SpawnPiece(5, 3, 7, faceCameraOrientation)); // CommandUnit
-
-        //// Drone shoot scenario
-        //PlayerManager.Instance.Pieces.Add(SpawnPiece(2, 1, 0, Quaternion.identity)); // Tank
-        //PlayerManager.Instance.Pieces.Add(SpawnPiece(2, 7, 7, Quaternion.identity)); // Tank
-        //EnemyManager.Instance.Pieces.Add(SpawnPiece(3, 2, 4, faceCameraOrientation)); // Drone
-        //EnemyManager.Instance.Pieces.Add(SpawnPiece(3, 4, 7, faceCameraOrientation)); // Drone
-
-        //// Grunt shoot scenario
-        //PlayerManager.Instance.Pieces.Add(SpawnPiece(0, 3, 4, Quaternion.identity)); // Grunt
-        //EnemyManager.Instance.Pieces.Add(SpawnPiece(3, 0, 7, faceCameraOrientation)); // Drone
-        //EnemyManager.Instance.Pieces.Add(SpawnPiece(3, 6, 7, faceCameraOrientation)); // Drone
-        //EnemyManager.Instance.Pieces.Add(SpawnPiece(3, 0, 1, faceCameraOrientation)); // Drone
-        //EnemyManager.Instance.Pieces.Add(SpawnPiece(3, 7, 0, faceCameraOrientation)); // Drone
-
-        //// Jumpship shoot scenario
-        //PlayerManager.Instance.Pieces.Add(SpawnPiece(1, 3, 4, Quaternion.identity)); // Jumpship
-
-        //EnemyManager.Instance.Pieces.Add(SpawnPiece(3, 2, 4, faceCameraOrientation)); // Drone
-        //EnemyManager.Instance.Pieces.Add(SpawnPiece(3, 4, 4, faceCameraOrientation)); // Drone
-        //EnemyManager.Instance.Pieces.Add(SpawnPiece(3, 3, 3, faceCameraOrientation)); // Drone
-        //EnemyManager.Instance.Pieces.Add(SpawnPiece(3, 3, 5, faceCameraOrientation)); // Drone
-
-        //EnemyManager.Instance.Pieces.Add(SpawnPiece(3, 2, 5, faceCameraOrientation)); // Drone
-        //EnemyManager.Instance.Pieces.Add(SpawnPiece(3, 4, 5, faceCameraOrientation)); // Drone
-        //EnemyManager.Instance.Pieces.Add(SpawnPiece(3, 4, 3, faceCameraOrientation)); // Drone
-        //EnemyManager.Instance.Pieces.Add(SpawnPiece(3, 2, 3, faceCameraOrientation)); // Drone
-
-        //// Dreadnought shoot scenario
-        //EnemyManager.Instance.Pieces.Add(SpawnPiece(4, 3, 4, faceCameraOrientation)); // Drone
-
-        //PlayerManager.Instance.Pieces.Add(SpawnPiece(2, 2, 4, faceCameraOrientation)); // Tank
-        //PlayerManager.Instance.Pieces.Add(SpawnPiece(2, 4, 4, faceCameraOrientation)); // Tank
-        //PlayerManager.Instance.Pieces.Add(SpawnPiece(2, 2, 3, faceCameraOrientation)); // Tank
-        //PlayerManager.Instance.Pieces.Add(SpawnPiece(2, 3, 5, faceCameraOrientation)); // Tank
-        //PlayerManager.Instance.Pieces.Add(SpawnPiece(2, 2, 5, faceCameraOrientation)); // Tank
-        //PlayerManager.Instance.Pieces.Add(SpawnPiece(2, 4, 5, faceCameraOrientation)); // Tank
-        //PlayerManager.Instance.Pieces.Add(SpawnPiece(2, 4, 3, faceCameraOrientation)); // Tank
-        //PlayerManager.Instance.Pieces.Add(SpawnPiece(2, 3, 3, faceCameraOrientation)); // Tank
-
-        //PlayerManager.Instance.Pieces.Add(SpawnPiece(2, 0, 0, faceCameraOrientation)); // Tank
-        //PlayerManager.Instance.Pieces.Add(SpawnPiece(2, 0, 7, faceCameraOrientation)); // Tank
-
-        //PlayerManager.Instance.Pieces.Add(SpawnPiece(2, 7, 6, faceCameraOrientation)); // Tank
-        //PlayerManager.Instance.Pieces.Add(SpawnPiece(2, 7, 1, faceCameraOrientation)); // Tank
-
-
-        if (this.OnBoardInit != null)
-        {
-            this.OnBoardInit();
-        }
-    }
-
-    public Vector3 GetTileCenter(int x, int y)
-    {
-        Vector3 origin = Vector3.zero;
-        origin.x += (TILE_SIZE * x) + TILE_OFFSET;
-        origin.z += (TILE_SIZE * y) + TILE_OFFSET;
-
-        return origin;
-    }
-
     private void DrawDebugBoard()
     {
         Vector3 widthLine = Vector3.right * 8;
@@ -287,11 +232,11 @@ public class BoardManager : MonoBehaviour
             }
         }
 
-        if (selectionX >= 0 && selectionY >= 0)
+        if (_selectionX >= 0 && _selectionY >= 0)
         {
-            Debug.DrawLine(Vector3.forward * selectionY + Vector3.right * selectionX, Vector3.forward * (selectionY + 1) + Vector3.right * (selectionX + 1));
+            Debug.DrawLine(Vector3.forward * _selectionY + Vector3.right * _selectionX, Vector3.forward * (_selectionY + 1) + Vector3.right * (_selectionX + 1));
 
-            Debug.DrawLine(Vector3.forward * (selectionY + 1) + Vector3.right * selectionX, Vector3.forward * selectionY + Vector3.right * (selectionX + 1));
+            Debug.DrawLine(Vector3.forward * (_selectionY + 1) + Vector3.right * _selectionX, Vector3.forward * _selectionY + Vector3.right * (_selectionX + 1));
         }
     }
 }

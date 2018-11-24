@@ -4,13 +4,17 @@ using UnityEngine.UI;
 [RequireComponent(typeof(Piece))]
 public class HealthBar : MonoBehaviour
 {
-    public GameObject uiPrefab;
-    public Transform target;
-
     private Transform _ui;
+
     private Image _healthSlider;
+
     private Transform _cam;
+
     private Piece _piece;
+
+    public GameObject uiPrefab;
+
+    public Transform target;
 
     private void Awake()
     {
