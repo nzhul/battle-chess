@@ -20,7 +20,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4343315736480146}
   m_Layer: 0
-  m_Name: HealthBar target
+  m_Name: WaitIndicator target
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -41,6 +41,21 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &1577221411073926
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4349392994275368}
+  m_Layer: 0
+  m_Name: HealthBar target
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &1613197825564636
 GameObject:
   m_ObjectHideFlags: 0
@@ -54,6 +69,7 @@ GameObject:
   - component: {fileID: 114389008777550268}
   - component: {fileID: 114861032707663430}
   - component: {fileID: 136125469608518524}
+  - component: {fileID: 114407002729949018}
   m_Layer: 0
   m_Name: Jumpship
   m_TagString: Untagged
@@ -115,12 +131,25 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1469252361574744}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 1.205, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4371124983628610}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4349392994275368
+Transform:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1577221411073926}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 1.016, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4371124983628610}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4371124983628610
 Transform:
@@ -133,6 +162,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4343315736480146}
+  - {fileID: 4349392994275368}
   - {fileID: 4889738525834050}
   - {fileID: 4476472143754122}
   m_Father: {fileID: 0}
@@ -150,7 +180,7 @@ Transform:
   m_Children:
   - {fileID: 4293698720137838}
   m_Father: {fileID: 4371124983628610}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: -5, y: 0, z: 0}
 --- !u!4 &4889738525834050
 Transform:
@@ -163,7 +193,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4371124983628610}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!23 &23111159857233230
 MeshRenderer:
@@ -236,6 +266,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 11e494c4c168b6a408c492cde83b2c88, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &114407002729949018
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1613197825564636}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 640e4d1d4050dbb49ae5917c21e055e6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  uiPrefab: {fileID: 1827333485096416, guid: bcca72ad45b72b84e86cf9a84145afbc, type: 2}
+  target: {fileID: 4343315736480146}
 --- !u!114 &114615130449648528
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -247,6 +290,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc6a0d2b63af38b488baf05245a5cc73, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  deathEffect: {fileID: 1019248618539596, guid: 4df2b569d021c3944bf30ef19abc63be,
+    type: 2}
+  shootEffect: {fileID: 198429278261939374}
+  Target: {fileID: 0}
+  motor: {fileID: 0}
+  sensor: {fileID: 0}
   Speed: 0
   Hitpoints: 2
   _currentHitpoints: 0
@@ -255,12 +304,6 @@ MonoBehaviour:
   DetectionMethod: 1
   AttackMethod: 1
   IsHuman: 1
-  deathEffect: {fileID: 1019248618539596, guid: 4df2b569d021c3944bf30ef19abc63be,
-    type: 2}
-  shootEffect: {fileID: 198429278261939374}
-  Target: {fileID: 0}
-  motor: {fileID: 0}
-  sensor: {fileID: 0}
 --- !u!114 &114835727568069532
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -292,7 +335,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   uiPrefab: {fileID: 1664736419678294, guid: adc8d742ef915f240ae149f99e4012f7, type: 2}
-  target: {fileID: 4343315736480146}
+  target: {fileID: 4349392994275368}
 --- !u!136 &136125469608518524
 CapsuleCollider:
   m_ObjectHideFlags: 1

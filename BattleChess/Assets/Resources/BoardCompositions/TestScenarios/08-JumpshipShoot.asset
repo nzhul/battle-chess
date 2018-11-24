@@ -1,0 +1,53 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c5a7d0bd68e05eb428c713145c8398fc, type: 3}
+  m_Name: 08-JumpshipShoot
+  m_EditorClassIdentifier: 
+  Name: Jumpship Shoot
+  Description: Jumpship will attack all adjacent orthagonal targets
+  PreviewImage: {fileID: 21300000, guid: 1b0f227e4e468f24ea8a3dfa456fa774, type: 3}
+  Entities:
+  - PiecePrefab: {fileID: 114615130449648528, guid: 6227965df7e53e340a3e37e69e0c8fc0,
+      type: 2}
+    X: 3
+    Y: 4
+  - PiecePrefab: {fileID: 114834557167784604, guid: 7a01433cde6f6544badac21f626d582e,
+      type: 2}
+    X: 2
+    Y: 4
+  - PiecePrefab: {fileID: 114834557167784604, guid: 7a01433cde6f6544badac21f626d582e,
+      type: 2}
+    X: 4
+    Y: 4
+  - PiecePrefab: {fileID: 114834557167784604, guid: 7a01433cde6f6544badac21f626d582e,
+      type: 2}
+    X: 3
+    Y: 3
+  - PiecePrefab: {fileID: 114834557167784604, guid: 7a01433cde6f6544badac21f626d582e,
+      type: 2}
+    X: 3
+    Y: 5
+  - PiecePrefab: {fileID: 114834557167784604, guid: 7a01433cde6f6544badac21f626d582e,
+      type: 2}
+    X: 2
+    Y: 5
+  - PiecePrefab: {fileID: 114834557167784604, guid: 7a01433cde6f6544badac21f626d582e,
+      type: 2}
+    X: 4
+    Y: 5
+  - PiecePrefab: {fileID: 114834557167784604, guid: 7a01433cde6f6544badac21f626d582e,
+      type: 2}
+    X: 4
+    Y: 3
+  - PiecePrefab: {fileID: 114834557167784604, guid: 7a01433cde6f6544badac21f626d582e,
+      type: 2}
+    X: 2
+    Y: 3

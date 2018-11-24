@@ -59,7 +59,24 @@ public abstract class Piece : MonoBehaviour, IDamageable
 
     public bool WalkConsumed { get; set; }
 
-    public bool ActionConsumed { get; set; }
+    private bool _actionConsumed;
+
+    public bool ActionConsumed
+    {
+        get
+        {
+            return this._actionConsumed;
+        }
+        set
+        {
+            this._actionConsumed = value;
+
+            if (this.OnActionStatusChange != null)
+            {
+                this.OnActionStatusChange(this);
+            }
+        }
+    }
 
     public bool IsTurnComplete { get; set; }
 
@@ -69,11 +86,11 @@ public abstract class Piece : MonoBehaviour, IDamageable
 
     public event Action<Piece> OnTurnCompleted;
 
-    public event Action<Piece> OnDeath;
-
     public event Action<Piece> OnAttackComplete;
 
     public event Action<Piece> OnHealthChange;
+
+    public event Action<Piece> OnActionStatusChange;
 
     private void Piece_OnTurnCompleted(Piece obj)
     {
