@@ -92,6 +92,8 @@ public abstract class Piece : MonoBehaviour, IDamageable
 
     public event Action<Piece> OnActionStatusChange;
 
+    public event Action OnDeath;
+
     private void Piece_OnTurnCompleted(Piece obj)
     {
         this.FinishTurn();
@@ -225,25 +227,25 @@ public abstract class Piece : MonoBehaviour, IDamageable
         this.WalkConsumed = true;
         this.ActionConsumed = true;
         this.IsDead = true;
-        PlayerManager.Instance.Pieces.Remove(this);
+
+        if (this.IsHuman)
+        {
+            PlayerManager.Instance.Pieces.Remove(this);
+        }
+        else
+        {
+            EnemyManager.Instance.Pieces.Remove(this);
+        }
+
         BoardManager.Instance.Pieces[this.CurrentX, this.CurrentY] = null;
+
+        if (this.OnDeath != null)
+        {
+            this.OnDeath();
+        }
 
         Destroy(Instantiate(deathEffect.gameObject, transform.position, Quaternion.identity) as GameObject, 2);
         Destroy(gameObject);
-    }
-
-    private void OnDestroy()
-    {
-        var listeners = this.OnTurnCompleted.GetInvocationList();
-        foreach (var item in listeners)
-        {
-            this.OnTurnCompleted -= (item as Action<Piece>);
-        }
-
-        // TODO: unsubscribe all other events. 
-        // OnTurnCompleted;
-        // OnDeath;
-        // OnAttackComplete;
     }
 
     public abstract bool[,] PossibleMoves();

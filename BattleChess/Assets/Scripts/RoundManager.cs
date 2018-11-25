@@ -28,10 +28,13 @@ public class RoundManager : MonoBehaviour
     }
     #endregion
 
-    public event Action OnNewRound;
+    public event Action<int> OnNewRound;
+
+    public int CurrentRound { get; set; }
 
     private void Start()
     {
+        this.CurrentRound = 1;
         BoardManager.Instance.OnBoardInit += BoardManager_OnBoardInit;
     }
 
@@ -68,7 +71,7 @@ public class RoundManager : MonoBehaviour
         {
             this.PlayerActionsLeft--;
         }
-        else if(!obj.IsHuman)
+        else if (!obj.IsHuman)
         {
             this.AIActionsLeft--;
         }
@@ -91,9 +94,11 @@ public class RoundManager : MonoBehaviour
 
         EnemyManager.Instance.RestoreWalkAndActions();
 
+        this.CurrentRound++;
+
         if (this.OnNewRound != null)
         {
-            this.OnNewRound();
+            this.OnNewRound(this.CurrentRound);
         }
     }
 }
